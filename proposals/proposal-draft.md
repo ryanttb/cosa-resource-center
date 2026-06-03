@@ -1,0 +1,439 @@
+# CoSA Resource Center & Data Visualization — Proposal (Working Draft)
+
+**Project:** State and Territorial Archive Data Aggregation — Implementation Grant
+**Submitted to:** Council of State Archivists (CoSA) — Joy Banks, Executive Director
+**Prepared by:** [Lead Developer] (senior software developer) & Jess [last name] (archivist)
+**Phase(s) addressed:** Phase 1 — Technical Design & Implementation (and optionally Phase 2 — Maintenance)
+**Status:** Internal working draft — iterate freely. Not yet sent to CoSA.
+**Last updated:** 2026-06-03
+
+> **Drafting notes (delete before sending):**
+> - The RFP states a *preference* for proposals received by **May 29, 2026**; today is June 3, 2026. Because this is a reposting and "review begins immediately," the window is likely still open — **confirm with Joy ASAP** before investing more.
+> - Funding ceilings are fixed by the grant: **Phase 1 = $100,000**, **Phase 2 = $50,000**, **$150,000 total**. Hard outer boundary: project end date **Nov 30, 2028** (no-cost extension possible).
+> - Sections marked `TODO` need your/Jess's input (CVs, rates, preferences).
+> - This draft deliberately presents **multiple approaches**. We can collapse to one recommendation once we talk to Joy.
+
+---
+
+## Table of Contents
+
+1. [At a Glance](#1-at-a-glance)
+2. [Motivations & Qualifications](#2-motivations--qualifications)
+3. [Our Understanding of the Project](#3-our-understanding-of-the-project)
+4. [Guiding Principles](#4-guiding-principles)
+5. [Project Approaches (Options A / B / C)](#5-project-approaches-options-a--b--c)
+6. [Recommended Architecture](#6-recommended-architecture)
+7. [Modern Tooling Rationale (GitHub & AI)](#7-modern-tooling-rationale-github--ai)
+8. [Project Plan & Workstreams](#8-project-plan--workstreams)
+9. [Timeline](#9-timeline)
+10. [Deliverables](#10-deliverables)
+11. [Challenges & Risks](#11-challenges--risks)
+12. [Requirements Traceability (RFP → Solution)](#12-requirements-traceability-rfp--solution)
+13. [Sustainability & Handoff (Phase 2)](#13-sustainability--handoff-phase-2)
+14. [Budget Framing](#14-budget-framing)
+15. [Open Questions for CoSA](#15-open-questions-for-cosa)
+16. [Appendix](#16-appendix)
+
+---
+
+## 1. At a Glance
+
+CoSA needs two things that must outlive this grant:
+
+1. A **Resource Center** — a community hub of linkable, richly-described resources (documents, A/V, datasets, code) with an intuitive, preservation-standards-based taxonomy, integrated with CoSA's GrowthZone/WordPress presence and instrumented for analytics.
+2. A **Data Visualization capability** — a web-accessible, submission-friendly data repository that tracks longitudinal survey data, contextualizes provenance, normalizes disparate sources (CoSA, SAA, Census, IMLS), and produces interactive dashboards and standard exports.
+
+The hard constraint behind both is **sustainability**: CoSA does not maintain development staff, and the prior "turnkey" solution proved expensive to feed and maintain. **Every design decision in this proposal is filtered through "can a non-developer keep this alive on a $50,000 Phase 2 budget?"**
+
+Our team pairs a **senior developer** (architecture, automation, data engineering) with a **practicing archivist** (taxonomy, metadata, community needs, governance) — directly matching the RFP's call for a small team fluent in both technology and archives.
+
+We propose a **Git-native, low-maintenance core** with **commercial visualization where it earns its keep**, optionally augmented by **AI-assisted ingestion and natural-language querying** to realize CoSA's "dream scenario" — all introduced incrementally so CoSA is never locked into something it can't sustain.
+
+---
+
+## 2. Motivations & Qualifications
+
+> `TODO`: This section is scaffolded for you and Jess to fill. Provide CV/bio details and we'll map them to the RFP's required qualifications below.
+
+### Why we're motivated
+> `TODO (Lead Developer)`: 2–4 sentences. Suggested themes: long-term interest in civic/public-interest data; belief that durable, open, low-cost tooling serves member organizations better than rented black boxes; enthusiasm for pairing modern automation (GitHub, AI) with archival rigor.
+
+> `TODO (Jess)`: 2–4 sentences from the archivist's perspective — stewardship, metadata/taxonomy, serving the state-archives community, making data actionable for advocacy.
+
+### Team & roles
+
+| Role | Person | Primary responsibilities |
+|---|---|---|
+| Technical lead / developer | [Lead Developer] | Architecture, data pipelines, automation, dashboards, hosting, security, handoff docs |
+| Archivist / domain lead | Jess [last name] | Taxonomy & metadata design, resource curation, community/stakeholder engagement, governance, training |
+| Shared | Both | Discovery, requirements, testing with members, reporting & presentations |
+
+### Qualifications mapped to RFP requirements (Phase 1)
+
+> Fill the "Evidence" column with concrete projects, roles, tools, and outcomes. Be specific (system names, scale, dates).
+
+| RFP-required qualification | Who covers it | Evidence (`TODO`) |
+|---|---|---|
+| Data visualization (Tableau Public, interactive dashboards) | Dev (+ Jess) | |
+| Project management of complex projects (nonprofit/academic preferred) | Both | |
+| Web development & design, SEO, UX | Dev | |
+| CMS/AMS familiarity; website platform migration | Both | |
+| Data management — cleaning, linking datasets, data maps | Dev | |
+| GitHub / similar for hosting & managing resources | Dev | |
+| Strong written/oral communication; clear documentation | Both | |
+| Stakeholder engagement (board, retirees, volunteers, sponsors, partners) | Jess | |
+| Focus groups & surveys | Jess | |
+| Familiarity with archives / government / libraries / museums / records management | Jess | |
+| Eligible to work in the U.S. | Both | |
+| Able to travel to an in-person gathering | Both | |
+
+*(Phase 2 adds: training-material development, website maintenance, version control, cloud-based systems, user-feedback integration, community building. Map these too if we bid Phase 2.)*
+
+---
+
+## 3. Our Understanding of the Project
+
+This grew out of the Mellon-funded planning work, where **AVP** delivered a recommendations report (June 2024) and Tableau Public proofs of concept. Key context we're building on:
+
+- **AMS is already chosen and live:** CoSA migrated to **GrowthZone** (Dec 2024), which also hosts a **WordPress** site. The Resource Center and data tools must *integrate with*, not replace, this stack.
+- **AVP's six recommendations** were: (1) adopt an AMS, (2) bring ARM survey data into the AMS, (3) build an interactive member dashboard, (4) migrate resources to a new repository (they floated DSpace), (5) make CoSA data downloadable, and (6) streamline survey/data collection. The RFP explicitly says proposals are **not bound** to AVP's specifics — they're a starting point.
+- **A mock-up Resource Center already exists in a GitHub repo** from the prior consultants — evidence that a Git-based approach is viable and already partially familiar to CoSA.
+- **The data is messy and partly historical:** surveys dating to the 1990s across Airtable, HigherLogic, Informatics, Sogolytics, SurveyMonkey, and paper. AVP found that (a) members often *can't* do their own data wrangling, (b) cleaned + contextualized data is essential, and (c) visualizations can both reveal and hide data gaps.
+- **Representative user needs / FAQs** (from your notes and AVP's use cases):
+  - "Do you have a policy on X?" / "Are there guidelines on topic Y?" → Resource Center discovery.
+  - "About how much did state Z spend on projects related to A?" → cross-dataset query + visualization.
+  - Advocacy/budget comparisons against similar states → the interactive dashboard.
+- **The sustainability problem is the real problem.** The previous turnkey product reportedly cost developer time just to add data. CoSA has **no standing dev staff**. So "powerful" is necessary but not sufficient — it must be **operable by archivists and volunteers**.
+
+CoSA (via Joy) is **comfortable with flexibility and iteration**: pivots based on testing and feedback are welcome and can be built into the plan. We treat this as a green light for a **discovery-first, incremental** delivery model rather than a fixed big-bang spec.
+
+---
+
+## 4. Guiding Principles
+
+These principles drive the trade-offs in every option below.
+
+1. **Sustainability over sophistication.** Prefer the simplest thing a non-developer can maintain. Anything fancy must degrade gracefully and have a documented "plain" fallback.
+2. **Own the durable layer; rent the convenient layer.** Content, metadata, and data-of-record should live in open, exportable formats CoSA controls (text/CSV/JSON in Git). Use commercial tools (e.g., PowerBI/Tableau) for the parts where buying beats building — but never as the *only* copy of the truth.
+3. **No data dead-ends.** Everything can be exported; nothing is trapped in a vendor.
+4. **Contribution should be easy and reviewable.** Submissions flow through low-friction front doors (forms) but land in a reviewable, auditable pipeline.
+5. **Context travels with data.** Provenance, collection method, data dictionaries, and "known gaps" are first-class, per AVP's findings.
+6. **Iterate with real members.** Build, test with a small member cohort, refine — repeatedly.
+7. **Document for the next person, not the last.** Handoff/maintenance docs are a deliverable, not an afterthought.
+
+---
+
+## 5. Project Approaches (Options A / B / C)
+
+We present three coherent approaches. They are **not mutually exclusive**; C is a deliberate blend and our tentative recommendation, but we want CoSA's input before committing.
+
+### Option A — Git-native / static-first
+
+**Idea:** The Resource Center is a statically-generated website built from Markdown + structured data files (YAML/CSV/JSON) in a GitHub repository. Each resource is a file → an individual, linkable page with customizable front-matter metadata and taxonomy tags. Data lives as versioned CSV/JSON. Visualizations are embedded from free tools (Tableau Public / Looker Studio) or rendered client-side. Contributions come via web forms and GitHub Pull Requests; GitHub Actions run validation, build, and deploy.
+
+| Pros | Cons |
+|---|---|
+| Near-zero hosting cost; extremely durable | GitHub literacy required for some maintainer workflows |
+| Full version history & audit trail for free | Heavier "dynamic query" features need extra tooling |
+| No vendor lock-in; everything is plain files | Static model less natural for frequently-changing tabular data |
+| Plays directly to "migrate Resource Center to GitHub" | Real-time/interactive analytics not native |
+| Cheap to keep alive in Phase 2 | |
+
+### Option B — Commercial platform-centric
+
+**Idea:** Lean on the existing **GrowthZone/WordPress** stack (or a hosted asset repository like **DSpace**, per AVP) for the Resource Center, and a **commercial data platform** (PowerBI, Tableau, or Airtable-as-source-of-truth) for the data repository and visualization. Closest to the literal RFP language ("commercial platform with data visualization and analytics tools available (e.g. PowerBI)").
+
+| Pros | Cons |
+|---|---|
+| Matches RFP wording most literally | Recurring license costs eat into a finite grant |
+| Familiar GUIs for non-developers | Vendor lock-in; export/portability risk |
+| Less custom code to maintain | The prior "turnkey" pain lived here |
+| Vendor support contracts available | Customization often hits platform ceilings |
+
+### Option C — Hybrid (tentative recommendation)
+
+**Idea:** Combine A's **durable, version-controlled core** with B's **commercial visualization where it genuinely helps**, then layer **AI-assisted ingestion and natural-language query** on top — introduced last and optionally, so nothing critical depends on it.
+
+- **Resource Center:** Git-native static site (Option A), integrated into CoSA's WordPress/GrowthZone via embeds/links and a shared taxonomy. Submissions via forms → PR-based review.
+- **Data repository:** A lightweight, managed datastore as the *working* source of truth (e.g., a hosted Postgres/Supabase, or Airtable if CoSA prefers GUI editing), with **scheduled exports back to versioned CSV/JSON in Git** so the durable copy is never lost. Supports submissions, longitudinal tracking, and provenance/notes.
+- **Visualization:** Free interactive dashboards (Tableau Public / Looker Studio) for the headline member-advocacy use cases, plus standard one-click exports (charts, tables, datasets). Custom lightweight charts only where embedding falls short.
+- **AI layer (incremental, optional):** Assisted ingestion (PDF/spreadsheet → structured, human-reviewed data), and a natural-language assistant that answers the FAQ-style questions over the Resource Center + datasets with citations.
+
+| Pros | Cons |
+|---|---|
+| Durable truth in Git + convenient editing/viz on top | More moving parts than A or B alone |
+| Realizes the "dream scenario" without betting the project on it | Requires clear boundaries to stay maintainable |
+| Cost-controlled (free/cheap core; paid only where it pays) | AI features need guardrails (accuracy, cost, governance) |
+| Graceful degradation: AI/viz can fail without data loss | |
+
+**Why C, tentatively:** It directly answers the sustainability problem (durable, exportable, low-cost core), satisfies the RFP's commercial-viz expectation, builds on the existing GitHub mock-up and GrowthZone investment, and leaves a clear, *optional* path to the AI-powered dream scenario — which we can scope to fit whatever budget and appetite remain.
+
+---
+
+## 6. Recommended Architecture
+
+*(For Option C — illustrative, not a commitment. We expect to refine after discovery.)*
+
+```
+                +-------------------------------------------+
+                |        Contributors & CoSA Members        |
+                |  (archivists, staff, volunteers, funders) |
+                +----------------+--------------------------+
+                                 |
+            Web forms / GitHub  |   Browse / search / query / view dashboards
+            (low-friction in)   v   (out)
+        +----------------------------------------------------------+
+        |                  RESOURCE CENTER (Git-native)            |
+        |  Markdown + front-matter metadata, taxonomy, static site |
+        |  Integrated with WordPress/GrowthZone via embeds/links   |
+        +-------------------+----------------------+---------------+
+                            |                      |
+            GitHub Actions  |                      |  Analytics (GA / privacy-friendly)
+            (validate/build/|                      |
+             deploy)        v                      v
+        +----------------------------+   +---------------------------+
+        |  DATA REPOSITORY (working) |   |   VISUALIZATION LAYER     |
+        |  Postgres/Supabase or      |-->|  Tableau Public / Looker  |
+        |  Airtable; submissions,    |   |  + standard exports       |
+        |  longitudinal, provenance  |   |  (charts/tables/datasets) |
+        +-------------+--------------+   +---------------------------+
+                      |  scheduled export
+                      v
+        +----------------------------+
+        |  DURABLE COPY (versioned   |
+        |  CSV/JSON in Git)          |   <-- nothing is ever trapped
+        +----------------------------+
+
+        +----------------------------------------------------------+
+        |     AI LAYER (optional, incremental, human-in-loop)      |
+        |  Ingestion assist (PDF/CSV -> structured, reviewed)      |
+        |  NL query/assistant over resources + data, with cites   |
+        +----------------------------------------------------------+
+```
+
+**Key design choices**
+- **Single shared taxonomy** (designed by Jess against digital-preservation standards) used by both the Resource Center and the data repository, so discovery is consistent.
+- **Provenance & "known gaps" as required fields**, addressing AVP's warning that visualizations can mislead by hiding missing data.
+- **Standard exports are first-class deliverables**, per the RFP ("Standard exports for specific products are essential").
+- **Normalization workflows** to map CoSA/SAA/Census/IMLS data into a common schema for comparison (e.g., the state/territory master dataset AVP already prototyped).
+
+---
+
+## 7. Modern Tooling Rationale (GitHub & AI)
+
+You floated GitHub and AI agents — here's how we'd justify them to CoSA *without* overpromising.
+
+### GitHub (high confidence, low risk)
+- **Migration target the RFP already names** ("migration of CoSA's Resource Center to GitHub or similar"), and a mock-up already lives there.
+- **Free version history, audit trail, and rollback** — directly supports Phase 2's "version control" requirement.
+- **Submissions & triggers:** web/issue forms and Pull Requests give a reviewable contribution pipeline; **GitHub Actions** automate validation, build, deploy, link-checking, and scheduled data exports — i.e., the system feeds itself instead of requiring paid developer time to "add data."
+- **Access control:** roles/branch protections let CoSA gate who can publish vs. propose.
+- **Cost:** effectively free for a nonprofit's needs (and GitHub offers nonprofit/education programs).
+
+### AI agents (promising, but staged and guard-railed)
+Framed as **assistive, optional, human-in-the-loop** — never an unsupervised authority:
+- **Ingestion assist:** turn PDFs/spreadsheets/legacy survey files into draft structured records for a human to approve — attacks the exact pain point ("developer time just to add data").
+- **Natural-language query:** answer FAQ-style questions ("Do you have a policy on X?", "Guidelines on Y?", "How much did state Z spend on A?") over the Resource Center + datasets, returning **answers with citations/links** back to source resources and data.
+- **Guardrails we'd commit to:** every answer cites sources; AI never writes to the data-of-record without human review; usage costs are capped/monitored; the system fully functions (search, browse, dashboards) even if the AI layer is turned off.
+- **Why staged:** accuracy, cost, and governance need validation with real CoSA data before anyone relies on it. We'd pilot it narrowly, measure, then expand only if it earns trust.
+
+> Net: GitHub is core to the recommended build; AI is a high-value **opt-in** capability scoped to remaining budget and CoSA's comfort.
+
+---
+
+## 8. Project Plan & Workstreams
+
+Organized as parallel workstreams delivered incrementally (discovery → build → test-with-members → refine).
+
+1. **Discovery & Governance**
+   - Stakeholder interviews/focus groups (Jess-led); confirm priority users, use cases, and FAQs.
+   - Inventory existing resources, datasets, and the prior GitHub mock-up.
+   - Define data-governance basics: who curates, who approves, access tiers (public vs. member).
+
+2. **Taxonomy & Metadata**
+   - Design a preservation-standards-based, community-intuitive taxonomy and a metadata schema (incl. contributor/usage tracking).
+   - Validate with a small member cohort.
+
+3. **Resource Center Build**
+   - Implement Git-native site, individual linkable resource pages, search/faceted browse, analytics.
+   - Integrate with WordPress/GrowthZone (embeds, links, consistent navigation/branding).
+   - Stand up the submission → review → publish pipeline.
+
+4. **Data Repository & Normalization**
+   - Stand up the working datastore (submissions, longitudinal tracking, provenance/notes).
+   - Build normalization workflows for CoSA + external sources (SAA, Census, IMLS) into a shared schema.
+   - Establish scheduled export to versioned, downloadable datasets (with data dictionaries + context).
+
+5. **Visualization & Exports**
+   - Build the headline interactive dashboard(s) for advocacy/comparison use cases.
+   - Implement standard, repeatable exports (charts, tables, datasets).
+
+6. **AI Layer (optional/incremental)**
+   - Pilot ingestion assist and NL query on a bounded dataset; measure accuracy/cost; expand if validated.
+
+7. **Testing, Feedback & Iteration**
+   - Recurring member testing; incorporate feedback; pivot as needed (explicitly welcomed by CoSA).
+
+8. **Documentation, Training & Reporting**
+   - Maintainer/runbook docs, user guides, training sessions; interim reports/presentations; final report with maintenance recommendations.
+
+---
+
+## 9. Timeline
+
+**Ballpark only.** Phase 1 is a 24-month engagement (2026–2027); a delayed start (reposting) may shift these. Hard outer bound: **Nov 30, 2028**. Quarters below are relative to project start (T0).
+
+### Phase 1 — Design & Implementation (~24 months, $100,000 ceiling)
+
+| Period | Focus | Representative milestones |
+|---|---|---|
+| Q1 | Discovery & foundations | Stakeholder interviews; inventory; governance v0; taxonomy draft; repo + CI scaffolding |
+| Q2 | Resource Center MVP | Linkable resource pages, metadata schema, search/browse, submission pipeline; first member test |
+| Q3 | Data repository MVP | Working datastore, provenance model, first normalized dataset; export-to-Git pipeline |
+| Q4 | Visualization v1 | First interactive dashboard + standard exports; **interim report/presentation** |
+| Q5 | Integration & breadth | WordPress/GrowthZone integration; more datasets normalized; analytics; refine taxonomy from feedback |
+| Q6 | AI pilot (optional) | Ingestion-assist + NL-query pilot on bounded data; evaluate accuracy/cost/governance |
+| Q7 | Hardening & docs | Performance, accessibility, security; maintainer runbooks; user guides; training drafts |
+| Q8 | Handoff readiness | Member testing round; **final Phase 1 report/presentation**; maintenance recommendations; Phase 2 plan |
+
+### Phase 2 — Maintenance & Sustainability (~24 months, $50,000 ceiling; can overlap)
+- Content-update system & schedule; SEO confirmation; data map for AMS elements.
+- User-feedback system; finalize resource/taxonomy/architecture migration.
+- Tool updates, version-control plan, user documentation, outreach & training.
+- Integrate the reimagined **ARM survey** (~2026) and future data into Phase 1 tools.
+- Assessment via existing mechanisms (e.g., annual Calls to Members); communication/training plan.
+- **Goal:** fold routine maintenance into existing CoSA staff/volunteer roles by grant end.
+
+> The RFP encourages bidding one or both phases and expects selected parties to **work in tandem** for part of the term. `TODO`: decide whether we bid Phase 1 only, or Phase 1 + 2.
+
+---
+
+## 10. Deliverables
+
+**Software & systems**
+- Resource Center website (Git-native), integrated with CoSA's WordPress/GrowthZone, with:
+  - individual linkable resource pages across formats (docs, A/V, datasets, code),
+  - customizable metadata + contributor/usage tracking,
+  - a preservation-standards-based, intuitive taxonomy,
+  - search/faceted browse and usage analytics.
+- Data repository (web-accessible) supporting submissions, longitudinal tracking, and provenance/context.
+- Normalization workflows turning disparate sources (CoSA, SAA, Census, IMLS, etc.) into a comparable, standardized schema.
+- Interactive dashboard(s) plus **standard, repeatable exports** (charts, tables, datasets).
+- Submission/review/publish + automated build/deploy/validation pipeline (GitHub + Actions).
+- *(Optional)* AI ingestion-assist and natural-language query with citations.
+
+**Documentation**
+- Architecture & data map; metadata/taxonomy specification; data dictionaries with provenance/known-gaps; maintainer runbooks; user guides.
+
+**Engagement & reporting**
+- Interim reports and presentations (as needed).
+- Training sessions for CoSA staff/volunteers and the community.
+- Final report and presentation with **maintenance/sustainability recommendations**.
+
+---
+
+## 11. Challenges & Risks
+
+| # | Challenge / Risk | Likelihood | Impact | Mitigation |
+|---|---|---|---|---|
+| 1 | **Sustainability** — CoSA has no dev staff; prior turnkey tool was costly to feed | High | High | Durable plain-file core; automation does the "adding data"; runbooks; train staff/volunteers; design Phase 2 handoff from day one |
+| 2 | **Messy/legacy data** (1990s→present, many tools/formats) | High | Med | Incremental normalization; data dictionaries; provenance + "known gaps" as required fields |
+| 3 | **Misleading visualizations** hiding data gaps (AVP warning) | Med | High | Explicit missing-data indicators; context notes; review with archivists before publishing |
+| 4 | **GitHub literacy** for non-developer maintainers | Med | Med | Form-based contribution (no Git needed for most); clear guides; optional light GUI layer |
+| 5 | **AI accuracy / hallucination / cost** | Med | Med–High | Citations required; human-in-the-loop; cost caps; system works fully with AI disabled |
+| 6 | **Vendor lock-in / recurring license cost** vs. finite grant | Med | Med | Own the durable layer in open formats; rent only where it pays; budget licenses explicitly |
+| 7 | **Integration friction** with WordPress/GrowthZone | Med | Med | Early integration spike; embeds/links + shared taxonomy; confirm GrowthZone API/options in discovery |
+| 8 | **Scope creep** from an open-ended "dream scenario" | Med | Med | Phased/optional AI; member-tested priorities; change log; explicit MVP boundaries |
+| 9 | **Member engagement/participation** (declining survey response per AVP) | Med | Med | Low-friction submission; show value back via dashboards; Jess-led community engagement |
+| 10 | **Two-person team / bus factor** | Med | Med | Document everything; standard tools; cross-training; clear handoff to CoSA |
+| 11 | **Timeline slip** from delayed/reposted start | Med | Med | Incremental delivery so value lands early; re-baseline with Joy at kickoff |
+| 12 | **Accessibility & privacy** (public sector, tiered data access) | Med | Med–High | WCAG-minded build; access tiers (public vs. member); anonymization options per AVP rec. 6 |
+
+---
+
+## 12. Requirements Traceability (RFP → Solution)
+
+| RFP requirement (Phase 1) | How we address it |
+|---|---|
+| Individual, linkable pages for varied resource formats | Git-native page-per-resource; supports docs/A/V/datasets/code via links + embeds |
+| Customizable metadata; contributor/usage tracking | Front-matter metadata schema; contributor + analytics tracking |
+| Preservation-standards taxonomy, intuitive to community | Jess-designed taxonomy validated with members |
+| Integrate with CoSA website & GrowthZone Community | Embeds/links, shared taxonomy/branding; integration spike in discovery |
+| Usage analytics | Privacy-friendly web analytics on site + dashboards |
+| Online data repository, multiple formats | Working datastore + versioned exports |
+| Commercial platform w/ viz & analytics (e.g., PowerBI) | Tableau Public/Looker (free tier) or PowerBI for dashboards; CoSA's choice |
+| Accept submissions; longitudinal; provenance/context | Submission pipeline; longitudinal tracking; provenance/notes as required fields |
+| Recommend efficient collection/export (GrowthZone Forms, Sogolytics, SurveyMonkey) | Collection-strategy recommendations in discovery + reporting |
+| Standardized workflows across CoSA/SAA/Census/IMLS | Normalization pipelines to a shared schema |
+| Export to datasets/graphs/visualizations; standard exports essential | First-class, repeatable export deliverables |
+| Interim & final reports/presentations; maintenance recs | Built into reporting cadence + final deliverable |
+
+---
+
+## 13. Sustainability & Handoff (Phase 2)
+
+The core promise: **CoSA can keep this running without us, and without surprise developer bills.**
+
+- **Operability by non-developers:** routine updates happen through forms and reviewable proposals; automation handles validation/build/deploy.
+- **Open, exportable everything:** content and data-of-record stay in plain text/CSV/JSON under version control.
+- **Runbooks + training:** documented "how to do X" for the common maintenance tasks; live training sessions; recorded walkthroughs.
+- **Designed-in handoff:** Phase 2 work (content schedule, feedback loop, ARM-survey integration, version-control plan, outreach/training) maps onto existing CoSA staff/volunteer capacity by grant end.
+- **Graceful degradation:** if a paid/AI component is dropped later, search, browse, datasets, and dashboards still work.
+
+---
+
+## 14. Budget Framing
+
+> `TODO`: This is structure only — fill with your rates and effort estimates. Keep totals within ceilings.
+
+- **Phase 1 ceiling:** $100,000. **Phase 2 ceiling:** $50,000. **Combined:** $150,000.
+- Suggested cost categories to estimate:
+  - Labor (dev + archivist), by workstream/quarter.
+  - Tooling/licenses (most core tooling is free; budget any PowerBI/Tableau/hosting/datastore costs explicitly and conservatively).
+  - AI usage (if pursued) — capped, monitored, modest.
+  - Travel to the in-person gathering (RFP says funding is available — confirm whether it's inside or outside the ceiling).
+  - Contingency for re-baselining after the delayed start.
+- **Framing message to CoSA:** we intentionally minimize recurring costs so the finite grant buys *building and durability*, not perpetual rent.
+
+---
+
+## 15. Open Questions for CoSA
+
+To turn this draft into a tight, single-approach proposal:
+
+1. Are we bidding **Phase 1 only**, or **Phase 1 + Phase 2**?
+2. What's CoSA's appetite for **GitHub-based workflows** for staff/volunteers vs. preferring a GUI?
+3. Preferred **visualization platform** — free (Tableau Public/Looker) vs. paid (PowerBI/Tableau) — and any existing licenses?
+4. What does **GrowthZone** expose (APIs, embedding, community spaces) for integration?
+5. How interested is CoSA in the **AI layer**, and what's the comfort level on accuracy/governance/cost?
+6. Which **datasets and FAQs** are highest priority for the first dashboard/release?
+7. **Access tiers:** what must be public vs. member-only vs. restricted?
+8. Confirm the **submission deadline / whether the window is still open**, and the actual project start date for timeline baselining.
+9. Is **travel funding** inside or outside the $100K ceiling?
+10. Can we get access to the **prior GitHub mock-up** and AVP's POC datasets/Tableau workbooks?
+
+---
+
+## 16. Appendix
+
+### A. Glossary
+- **AMS** — Association Management System (CoSA uses **GrowthZone**).
+- **ARM Survey** — Archives and Records Management survey (a major CoSA dataset; reimagined iteration expected ~2026).
+- **DPCMM** — Digital Preservation Capability Maturity Model (survey/scoring).
+- **AVP** — The consultancy that produced the 2024 planning recommendations and Tableau Public POCs.
+- **POC** — Proof of Concept.
+- **RAG** — Retrieval-Augmented Generation (AI answers grounded in cited source documents/data).
+
+### B. Source documents
+- `proposals/rfp.pdf` — CoSA Call for Proposals (Phase 1 & Phase 2 scopes, qualifications, funding, timeline).
+- `proposals/recommendations.pdf` — AVP "State and Territorial Archive Data Aggregation Planning Project — Recommendations Report" (June 20, 2024).
+
+### C. AVP's six recommendations (for reference)
+1. Adopt an AMS (→ GrowthZone, done Dec 2024).
+2. Bring ARM survey data into the AMS.
+3. Develop an interactive dashboard for members.
+4. Migrate resources to a new repository (DSpace floated).
+5. Make CoSA data accessible for download.
+6. Streamline survey & data collection methods.
+
+> We are **not bound** to these specifics (the RFP says so), but our approach builds on and complements them.
