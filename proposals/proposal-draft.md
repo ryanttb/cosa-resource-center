@@ -510,7 +510,7 @@ To turn this draft into a tight, single-approach proposal:
 - **ARM Survey** — Archives and Records Management survey (a major CoSA dataset; reimagined iteration expected ~2026).
 - **DPCMM** — Digital Preservation Capability Maturity Model (survey/scoring).
 - **AVP** — The consultancy that produced the 2024 planning recommendations and Tableau Public POCs.
-- **IMLS** — Institute of Museum and Library Services, an independent ⁠U.S. federal agency that acts as the primary source of federal funding, policy development, and research for the nation’s libraries, museums, and related cultural organizations—including archives.
+- **IMLS** — Institute of Museum and Library Services, an independent U.S. federal agency that acts as the primary source of federal funding, policy development, and research for the nation's libraries, museums, and related cultural organizations — including archives.
 - **POC** — Proof of Concept.
 - **RAG** — Retrieval-Augmented Generation (AI answers grounded in cited source documents/data).
 - **SAA** — Society of American Archivists, the oldest and largest national professional association for archivists in North America.
