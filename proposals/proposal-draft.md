@@ -105,6 +105,30 @@ This grew out of the Mellon-funded planning work, where **AVP** delivered a reco
   - Advocacy/budget comparisons against similar states → the interactive dashboard.
 - **The sustainability problem is the real problem.** The previous turnkey product reportedly cost developer time just to add data. CoSA has **no standing dev staff**. So "powerful" is necessary but not sufficient — it must be **operable by archivists and volunteers**.
 
+### What the AVP proof of concept tells us (and how it shapes our plan)
+
+AVP's *Proof of Concept Findings* (May 2024) walked two real use cases end-to-end in Tableau Public. It's the most concrete evidence we have of where the **labor and traps** actually live — and it maps almost one-to-one onto why our automation-first, normalize-once approach is the right call.
+
+**Use Case 1 — "Resources by State."** An archivist looks for states with a similar budget/staffing and a *higher* DPCMM score that have already written and shared digital-preservation policies. AVP combined a CoSA-supplied Resource Center spreadsheet (records tagged to the DPC Access Framework and to states) with the master dataset, then built a choropleth + a linked resource table in a cross-filtering dashboard.
+
+**Use Case 2 — "Budget per capita / budget as % of expenditures."** A state archivist argues for a higher budget by comparing per-capita archives budget and archives budget as a share of total state expenditures against similar states. AVP pulled 2020 population and 2022 expenditure data from the Census Bureau and built bar charts + choropleths.
+
+The **data-massaging effort** AVP documented, by skill level, is the headline:
+
+| Step | What it took | AVP skill rating | Our take |
+|---|---|---|---|
+| Build the **master dataset** (states/territories × region, program, agency, budget, FTE, DPCMM, population, expenditures) | Manual copy/paste from ARM survey + internal Airtable + DPCMM/region spreadsheets into one Google Sheet; manual value-checking | Intermediate | This canonical reference table is the backbone of *every* cross-dataset question. We make it a **versioned, automatically-assembled deliverable**, not a hand-built one-off. |
+| ARM survey had **duplicate responses** per state and gaps | AVP had to ask CoSA for a hand-cleaned, de-duplicated version | Intermediate | De-dup + "one row per state per year" resolution becomes a **repeatable pipeline step**, not a favor requested from staff each time. |
+| **Use Case 1 multi-valued fields** (`FrameworkElements`, `State`) had to be split into separate related tables keyed by `ResourceID` | "Complex cross-sheet formulas" | **Expert** | This is the single hardest manual step — and it **disappears** when resources are modeled as structured records from the start. We never "un-spread" data; we capture it relationally up front. |
+| **Census population/expenditure** ingest | Find exact Census terms for territories, transpose columns→rows, multiply "thousands" ×1000, manually paste territory rows | Basic–Intermediate | Deterministic transforms → a documented, **re-runnable ingest script**. AVP themselves suggested CoSA pre-normalize and host these — exactly our "normalized external datasets as data products." |
+| **Missing-data encoding** in maps | Gray/white "hacky workaround," manual re-adjustment each year; gaps ambiguous (unreported vs. not-collected-by-source) | Intermediate | We treat **data-availability status** as an explicit field (reported / not-reported / not-collected) so gaps are honest and don't need re-hacking per year. |
+| **Geography** problems | Resources with no state land on "Null Island" (0,0); small states/DC/territories hard to see on a geographic map; filtering on null misbehaves | Intermediate | A **tile-grid / cartogram** map gives every jurisdiction equal visual weight and a real home for "no geography." See [§6.2](#62-mapping--visualization-tableau-mapbox-and-tile-grid). |
+
+**Net effect on the proposal:** no change of direction, but three things get *sharper*:
+1. The **"master dataset" becomes a named, first-class deliverable** — a maintained, versioned reference table that powers the dream-scenario "query across datasets" capability.
+2. The normalization workstream gets **specific, demonstrable wins** (automated de-dup, structured-from-the-start resources that skip the Expert-level reshape, scripted Census ingest) — strong evidence we'll *reduce* the labor that made the prior turnkey tool expensive.
+3. **Missing-data honesty and jurisdiction-fair mapping** move from a vague principle to concrete design commitments.
+
 CoSA (via Joy) is **comfortable with flexibility and iteration**: pivots based on testing and feedback are welcome and can be built into the plan. We treat this as a green light for a **discovery-first, incremental** delivery model rather than a fixed big-bang spec.
 
 ---
@@ -193,9 +217,10 @@ We present three coherent approaches. They are **not mutually exclusive**; C is 
              deploy)        v                      v
         +----------------------------+   +---------------------------+
         |  DATA REPOSITORY (working) |   |   VISUALIZATION LAYER     |
-        |  Postgres/Supabase or      |-->|  Tableau Public / Looker  |
-        |  Airtable; submissions,    |   |  + standard exports       |
-        |  longitudinal, provenance  |   |  (charts/tables/datasets) |
+        |  + MASTER DATASET (canon., |-->|  dashboards + maps        |
+        |  versioned); submissions,  |   |  (tile-grid / Mapbox);    |
+        |  longitudinal, provenance, |   |  Tableau/PowerBI exports; |
+        |  data-availability status  |   |  standard charts/tables   |
         +-------------+--------------+   +---------------------------+
                       |  scheduled export
                       v
@@ -216,6 +241,39 @@ We present three coherent approaches. They are **not mutually exclusive**; C is 
 - **Provenance & "known gaps" as required fields**, addressing AVP's warning that visualizations can mislead by hiding missing data.
 - **Standard exports are first-class deliverables**, per the RFP ("Standard exports for specific products are essential").
 - **Normalization workflows** to map CoSA/SAA/Census/IMLS data into a common schema for comparison (e.g., the state/territory master dataset AVP already prototyped).
+
+### 6.1 The master dataset & normalization (lessons from the POC)
+
+The AVP proof of concept showed that almost every interesting question routes through one canonical table. We make that explicit:
+
+- **Master reference dataset** — one authoritative, versioned row per jurisdiction (50 states + DC + 5 territories), carrying region, program type, agency placement, budget, FTE, DPCMM score, population, and expenditures. It is **assembled by a documented, re-runnable pipeline** from ARM/DPCMM survey exports + internal Airtable + external sources — not hand-stitched in a spreadsheet.
+- **De-duplication & longitudinal keys** — ARM responses are resolved to one row per jurisdiction *per survey year*, so "compare to similar states" and "track over time" both work without manual cleanup.
+- **Structured-from-the-start resources** — Resource Center records store multi-valued fields (framework elements, related states) as first-class structured data. The POC's *Expert-level* "split multi-valued fields into related tables" step simply doesn't exist for us; exports to Tableau/PowerBI/CSV are generated, not reshaped by hand.
+- **Scripted external ingest** — Census population/expenditure pulls become parameterized scripts (correct territory identifiers, unit scaling, column→row shaping) that re-run cleanly each survey cycle, and the normalized results are published as **downloadable data products** in the Resource Center (exactly what AVP recommended).
+- **Explicit data-availability status** — every metric carries a status (reported / not reported / not collected by source) so gaps are represented honestly in tables, exports, and maps — directly answering AVP's warning that filters and choropleths can hide or misattribute missing data.
+
+### 6.2 Mapping & visualization: Tableau, Mapbox, and tile-grid
+
+You asked specifically whether **Mapbox** would suit some visualizations better than (or alongside) Tableau. Our read: **most of the choropleth pain AVP hit is cartographic, not tool-specific**, so the biggest win is a map *style* choice, with the *tool* choice driven by the build path and data-governance needs.
+
+**The core problem with geographic choropleths here.** CoSA's data is "one value per jurisdiction" for 56 jurisdictions, several of which are tiny or non-contiguous (DC, PR, VI, Guam, American Samoa, CNMI). On a literal U.S. map these are nearly invisible — and AVP's "Null Island," "hard to see small states," and "hacky gray-for-missing" notes are all symptoms of forcing categorical jurisdiction data onto real geography.
+
+**Strongest recommendation (tool-independent): tile-grid / hex-cartogram maps.** Give every jurisdiction an equal-size cell laid out in a roughly geographic grid. This solves small-state visibility, gives territories and DC a real home, makes "no data" an honest distinct cell instead of a color hack, and reads cleanly at thumbnail size for advocacy one-pagers. This single change addresses the majority of the POC's mapping complaints — in *any* tool.
+
+**Where each tool fits:**
+
+| Option | Best for | Trade-offs |
+|---|---|---|
+| **Tableau (Public)** | Matches RFP/AVP precedent; member-familiar; fast dashboards; can do tile-grid via custom polygons | **Tableau Public requires data to be public** (a real conflict with member-only/tiered data); workbooks are hand-built and brittle to re-style yearly; not version-controlled as code |
+| **Mapbox GL JS** | Code-defined, embeddable, branded maps in our own site; precise **data-driven styling** incl. explicit "no data" rendering; pan/zoom, real basemaps, point/cluster/vector layers; data can stay private/tiered | Adds an external dependency + API token to manage; usage-based pricing (generous free tier, but a sustainability item to track); arguably overkill for simple 56-cell choropleths |
+| **Lightweight libs (Observable Plot / Plotly / D3 / simple SVG)** | Simple choropleths & **tile-grid maps** rendered as versioned code in the repo; zero per-load cost; fully tiered/private | We build/maintain the chart code (mitigated by it being small, standard, and documented) |
+
+**Our recommendation:**
+- Use a **tile-grid/cartogram** layout for jurisdiction metrics regardless of tool — it's the highest-leverage fix.
+- For the **Git-native/custom path (Options A/C)**, render maps as **code** — lightweight libraries for the standard choropleths/tile-grids (cheap, private-data-friendly, version-controlled), and reach for **Mapbox specifically when a use case needs real geospatial behavior** (true zoomable basemaps, point/location layers, density/heat over actual coordinates, or richly interactive exploration). That's where Mapbox clearly beats both Tableau and a static SVG.
+- Keep **Tableau/PowerBI as a supported export target** for members who live in those tools — but don't make Tableau *Public* the system of record, given its public-data constraint vs. CoSA's tiered-access needs.
+
+> Bottom line: **Tableau and Mapbox aren't really competitors here.** Tableau competes with PowerBI/Looker as a *dashboarding* surface; Mapbox competes with Plotly/D3/deck.gl as a *map-rendering* engine inside our own site. We'd likely use a lightweight library for routine maps and Mapbox for the genuinely geospatial ones, while offering Tableau/PowerBI-friendly exports.
 
 ---
 
@@ -261,12 +319,16 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 
 4. **Data Repository & Normalization**
    - Stand up the working datastore (submissions, longitudinal tracking, provenance/notes).
-   - Build normalization workflows for CoSA + external sources (SAA, Census, IMLS) into a shared schema.
+   - Build the **master reference dataset** pipeline (jurisdictions × region/program/agency/budget/FTE/DPCMM/population/expenditures), incl. ARM de-duplication and per-year longitudinal keys.
+   - Build normalization workflows for CoSA + external sources (SAA, Census, IMLS) into a shared schema; **scripted, re-runnable Census ingest**.
+   - Model multi-valued resource fields as structured-from-the-start (no manual reshaping); attach **data-availability status** to every metric.
    - Establish scheduled export to versioned, downloadable datasets (with data dictionaries + context).
+   - Reproduce AVP's two use cases ("Resources by State," "Budget per capita / % of expenditures") as an early end-to-end validation of the pipeline.
 
 5. **Visualization & Exports**
    - Build the headline interactive dashboard(s) for advocacy/comparison use cases.
-   - Implement standard, repeatable exports (charts, tables, datasets).
+   - Use **tile-grid/cartogram maps** for jurisdiction metrics (honest missing-data cells); reach for **Mapbox** only for genuinely geospatial views.
+   - Implement standard, repeatable exports (charts, tables, datasets), including Tableau/PowerBI-friendly outputs.
 
 6. **AI Layer (optional/incremental)**
    - Pilot ingestion assist and NL query on a bounded dataset; measure accuracy/cost; expand if validated.
@@ -317,8 +379,9 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
   - a preservation-standards-based, intuitive taxonomy,
   - search/faceted browse and usage analytics.
 - Data repository (web-accessible) supporting submissions, longitudinal tracking, and provenance/context.
-- Normalization workflows turning disparate sources (CoSA, SAA, Census, IMLS, etc.) into a comparable, standardized schema.
-- Interactive dashboard(s) plus **standard, repeatable exports** (charts, tables, datasets).
+- **Master reference dataset** (canonical, versioned, pipeline-assembled) + **normalized external data products** (e.g., Census population/expenditures) published for download.
+- Normalization workflows turning disparate sources (CoSA, SAA, Census, IMLS, etc.) into a comparable, standardized schema, with explicit data-availability status.
+- Interactive dashboard(s) and **jurisdiction-fair maps** (tile-grid/cartogram; Mapbox where geospatial), plus **standard, repeatable exports** (charts, tables, datasets, Tableau/PowerBI-friendly).
 - Submission/review/publish + automated build/deploy/validation pipeline (GitHub + Actions).
 - *(Optional)* AI ingestion-assist and natural-language query with citations.
 
@@ -337,8 +400,9 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 | # | Challenge / Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|---|
 | 1 | **Sustainability** — CoSA has no dev staff; prior turnkey tool was costly to feed | High | High | Durable plain-file core; automation does the "adding data"; runbooks; train staff/volunteers; design Phase 2 handoff from day one |
-| 2 | **Messy/legacy data** (1990s→present, many tools/formats) | High | Med | Incremental normalization; data dictionaries; provenance + "known gaps" as required fields |
-| 3 | **Misleading visualizations** hiding data gaps (AVP warning) | Med | High | Explicit missing-data indicators; context notes; review with archivists before publishing |
+| 2 | **Messy/legacy data** (1990s→present, many tools/formats; ARM duplicate responses; gaps) | High | Med | Incremental normalization; automated de-dup + master-dataset pipeline; data dictionaries; provenance + data-availability status as required fields |
+| 3 | **Misleading visualizations** hiding/misattributing data gaps (AVP warning) | Med | High | Explicit data-availability status; tile-grid maps with honest "no data" cells; distinguish "unreported" vs. "not collected by source"; archivist review before publishing |
+| 3b | **Tableau Public requires public data** — conflicts with member-only/tiered access; hand-built workbooks brittle to re-style yearly | Med | Med | Don't make Tableau Public the system of record; render maps as versioned code; offer Tableau/PowerBI as *export* targets, not the source of truth |
 | 4 | **GitHub literacy** for non-developer maintainers | Med | Med | Form-based contribution (no Git needed for most); clear guides; optional light GUI layer |
 | 5 | **AI accuracy / hallucination / cost** | Med | Med–High | Citations required; human-in-the-loop; cost caps; system works fully with AI disabled |
 | 6 | **Vendor lock-in / recurring license cost** vs. finite grant | Med | Med | Own the durable layer in open formats; rent only where it pays; budget licenses explicitly |
@@ -403,7 +467,7 @@ To turn this draft into a tight, single-approach proposal:
 
 1. Are we bidding **Phase 1 only**, or **Phase 1 + Phase 2**?
 2. What's CoSA's appetite for **GitHub-based workflows** for staff/volunteers vs. preferring a GUI?
-3. Preferred **visualization platform** — free (Tableau Public/Looker) vs. paid (PowerBI/Tableau) — and any existing licenses?
+3. Preferred **visualization/dashboard surface** — Tableau (note: Tableau *Public* requires public data), PowerBI, Looker, or in-site code — and any existing licenses? Appetite for **Mapbox** (token/usage dependency) vs. lightweight in-repo maps?
 4. What does **GrowthZone** expose (APIs, embedding, community spaces) for integration?
 5. How interested is CoSA in the **AI layer**, and what's the comfort level on accuracy/governance/cost?
 6. Which **datasets and FAQs** are highest priority for the first dashboard/release?
@@ -423,10 +487,14 @@ To turn this draft into a tight, single-approach proposal:
 - **AVP** — The consultancy that produced the 2024 planning recommendations and Tableau Public POCs.
 - **POC** — Proof of Concept.
 - **RAG** — Retrieval-Augmented Generation (AI answers grounded in cited source documents/data).
+- **Master dataset** — the canonical, versioned reference table (one row per jurisdiction, optionally per year) that joins CoSA and external metrics for cross-dataset analysis.
+- **Choropleth** — a map that shades geographic areas by a data value.
+- **Tile-grid / cartogram map** — a map that gives each jurisdiction an equal-size cell in a roughly geographic layout, so small states, DC, and territories are equally visible.
 
 ### B. Source documents
 - `proposals/rfp.pdf` — CoSA Call for Proposals (Phase 1 & Phase 2 scopes, qualifications, funding, timeline).
 - `proposals/recommendations.pdf` — AVP "State and Territorial Archive Data Aggregation Planning Project — Recommendations Report" (June 20, 2024).
+- `proposals/poc-findings.pdf` — AVP "Proof of Concept Findings" (May 7, 2024): two end-to-end Tableau Public use cases with step-by-step data-prep effort and skill ratings.
 
 ### C. AVP's six recommendations (for reference)
 1. Adopt an AMS (→ GrowthZone, done Dec 2024).
