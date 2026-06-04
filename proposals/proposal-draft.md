@@ -2,16 +2,16 @@
 
 **Project:** State and Territorial Archive Data Aggregation — Implementation Grant
 **Submitted to:** Council of State Archivists (CoSA) — Joy Banks, Executive Director
-**Prepared by:** [Lead Developer] (senior software developer) & Jess [last name] (archivist)
+**Prepared by:** Ryan Morrison-Westphal (senior software developer) & Jess Farrell (archivist)
 **Phase(s) addressed:** Phase 1 — Technical Design & Implementation (and optionally Phase 2 — Maintenance)
 **Status:** Internal working draft — iterate freely. Not yet sent to CoSA.
-**Last updated:** 2026-06-03
+**Last updated:** 2026-06-04
 
 > **Drafting notes (delete before sending):**
-> - The RFP states a *preference* for proposals received by **May 29, 2026**; today is June 3, 2026. Because this is a reposting and "review begins immediately," the window is likely still open — **confirm with Joy ASAP** before investing more.
-> - Funding ceilings are fixed by the grant: **Phase 1 = $100,000**, **Phase 2 = $50,000**, **$150,000 total**. Hard outer boundary: project end date **Nov 30, 2028** (no-cost extension possible).
-> - Sections marked `TODO` need your/Jess's input (CVs, rates, preferences).
-> - This draft deliberately presents **multiple approaches**. We can collapse to one recommendation once we talk to Joy.
+>
+> - Funding ceilings are fixed by the grant: **Phase 1 = $100,000**, **Phase 2 = $50,000**, **$150,000 total**.  
+> Hard outer boundary: project end date **Nov 30, 2028** (no-cost extension possible).
+> - This draft deliberately presents **multiple approaches**. We can collapse to one recommendation after discussing with CoSA.
 
 ---
 
@@ -53,39 +53,42 @@ We propose a **Git-native, low-maintenance core** with **commercial visualizatio
 
 ## 2. Motivations & Qualifications
 
-> `TODO`: This section is scaffolded for you and Jess to fill. Provide CV/bio details and we'll map them to the RFP's required qualifications below.
-
 ### Why we're motivated
-> `TODO (Lead Developer)`: 2–4 sentences. Suggested themes: long-term interest in civic/public-interest data; belief that durable, open, low-cost tooling serves member organizations better than rented black boxes; enthusiasm for pairing modern automation (GitHub, AI) with archival rigor.
+
+My career has centered on public-interest data: at Harvard's Berkman Klein Center I built systems that made civic and legal data usable for policymakers, researchers, and the public — the Lumen DMCA-transparency database and the Internet Monitor among them. That work convinced me that member-serving organizations are better served by durable, open, low-cost tooling they control than by rented black boxes that cost money just to keep fed. This project pairs exactly that conviction with archival rigor — and I've seen the cost of getting it wrong: a community-contributed data-and-visualization platform I helped build (Curarium) never shipped, undone by scope creep, and I want to do that idea right this time. The longevity I want for CoSA is the kind I still see in my own open-source work — the jQuery Geo mapping library I wrote over a decade ago is still downloaded weekly in 2026, with no one paying to keep it alive.
 
 > `TODO (Jess)`: 2–4 sentences from the archivist's perspective — stewardship, metadata/taxonomy, serving the state-archives community, making data actionable for advocacy.
 
 ### Team & roles
 
-| Role | Person | Primary responsibilities |
-|---|---|---|
-| Technical lead / developer | [Lead Developer] | Architecture, data pipelines, automation, dashboards, hosting, security, handoff docs |
-| Archivist / domain lead | Jess [last name] | Taxonomy & metadata design, resource curation, community/stakeholder engagement, governance, training |
-| Shared | Both | Discovery, requirements, testing with members, reporting & presentations |
+
+| Role                       | Person           | Primary responsibilities                                                                              |
+| -------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------- |
+| Technical lead / developer | Ryan Morrison-Westphal | Architecture, data pipelines, automation, dashboards, hosting, security, handoff docs                 |
+| Archivist / domain lead    | Jess Farrell | Taxonomy & metadata design, resource curation, community/stakeholder engagement, governance, training |
+| Shared                     | Both             | Discovery, requirements, testing with members, reporting & presentations                              |
+
 
 ### Qualifications mapped to RFP requirements (Phase 1)
 
 > Fill the "Evidence" column with concrete projects, roles, tools, and outcomes. Be specific (system names, scale, dates).
 
-| RFP-required qualification | Who covers it | Evidence (`TODO`) |
-|---|---|---|
-| Data visualization (Tableau Public, interactive dashboards) | Dev (+ Jess) | |
-| Project management of complex projects (nonprofit/academic preferred) | Both | |
-| Web development & design, SEO, UX | Dev | |
-| CMS/AMS familiarity; website platform migration | Both | |
-| Data management — cleaning, linking datasets, data maps | Dev | |
-| GitHub / similar for hosting & managing resources | Dev | |
-| Strong written/oral communication; clear documentation | Both | |
-| Stakeholder engagement (board, retirees, volunteers, sponsors, partners) | Jess | |
-| Focus groups & surveys | Jess | |
-| Familiarity with archives / government / libraries / museums / records management | Jess | |
-| Eligible to work in the U.S. | Both | |
-| Able to travel to an in-person gathering | Both | |
+
+| RFP-required qualification                                                        | Who covers it | Evidence (`TODO`) |
+| --------------------------------------------------------------------------------- | ------------- | ----------------- |
+| Data visualization (Tableau Public, interactive dashboards)                       | Dev (+ Jess)  | Amazon (2018–2025): built and iterated internal dashboards from cloud & device metrics that drove weekly Ops decisions, bug detection, and prioritization. Berkman Klein: custom visualization for Curarium (collection-metadata search/viz) and the Internet Monitor (multi-source quantitative indicators); authored the open-source jQuery Geo map/spatial-data viz library; built government web-mapping apps at Applied Geographics. Strong custom viz incl. mapping — no Tableau by name, but ready to adopt it (the proposal also supports in-site rendering). |
+| Project management of complex projects (nonprofit/academic preferred)             | Both          | Technical/lead developer on complex, multi-year, multi-stakeholder builds at Harvard's Berkman Klein Center (2012–2018; academic/nonprofit research) and Amazon (2018–2025), partnering closely with dedicated PMs and researchers; at Applied Geographics designed and led junior developers on government grant projects, incl. the federally funded National Broadband Map. *(Jess: add archivist project-coordination evidence.)* |
+| Web development & design, SEO, UX                                                 | Dev           | 15+ years full-stack web. At Applied Geographics (2005–2012) personally designed every site and led junior devs task-by-task, delivering government web/mapping apps on MS SQL Server, ASP.NET, and C#.NET (ArcGIS/GDAL) — e.g., a FEMA resource-tracking site, the federal National Broadband Map, a Taunton, MA wetlands-permitting site with automated location-based PDF generation, and public assessor-lookup apps for many municipalities. Berkman Klein (2012–2018) and React/TypeScript work since. SEO was secondary on prior targeted gov/researcher audiences; general working knowledge, ready to deepen it for CoSA. |
+| CMS/AMS familiarity; website platform migration                                   | Both          | Deployed and maintained WordPress (CoSA's current stack), Drupal, and WikiMedia instances, plus the Refinery (Ruby) CMS for the Internet Monitor. Hands-on multi-platform CMS operation; GrowthZone specifics to confirm in discovery. *(Jess: add AMS/community-platform evidence.)* |
+| Data management — cleaning, linking datasets, data maps                           | Dev           | Berkman Klein's Lumen Database: high-volume, heavily automated ingestion + SOLR search over DMCA-notice data supplied by Google, Meta, and the U.S. government. Internet Monitor: compiled and curated quantitative data from many sources. At Applied Geographics, built the federal National Broadband Map to normalize provider coverage/pricing data nationwide and converted many municipal assessor databases into public web-mapping apps. Relational (MS SQL Server) & NoSQL throughout. |
+| GitHub / similar for hosting & managing resources                                 | Dev           | Active open-source maintainer (GitHub: ryanttb). Authored the open-source jQuery Geo library (2008–2012), still downloaded weekly on NPM in 2026. All Berkman Klein projects — Lumen, Emily Dickinson Archive, Curarium, Internet Monitor — are public GitHub repositories. |
+| Strong written/oral communication; clear documentation                            | Both          | Authored extensively documented open-source software (jQuery Geo); ran government customer needs-assessment sessions at Applied Geographics (stakeholder-facing oral communication); translated researcher requirements into deployed systems at Berkman Klein; at Amazon, regularly presented technical designs to senior management for review and approval in formal design-review sessions. *(Jess: add writing/presentation evidence.)* |
+| Stakeholder engagement (board, retirees, volunteers, sponsors, partners)          | Jess          |                   |
+| Focus groups & surveys                                                            | Jess          |                   |
+| Familiarity with archives / government / libraries / museums / records management | Jess          |                   |
+| Eligible to work in the U.S.                                                      | Both          | Yes — both team members are U.S. work-eligible. |
+| Able to travel to an in-person gathering                                          | Both          | Yes — both able to travel. |
+
 
 *(Phase 2 adds: training-material development, website maintenance, version control, cloud-based systems, user-feedback integration, community building. Map these too if we bid Phase 2.)*
 
@@ -115,16 +118,19 @@ AVP's *Proof of Concept Findings* (May 2024) walked two real use cases end-to-en
 
 The **data-massaging effort** AVP documented, by skill level, is the headline:
 
-| Step | What it took | AVP skill rating | Our take |
-|---|---|---|---|
-| Build the **master dataset** (states/territories × region, program, agency, budget, FTE, DPCMM, population, expenditures) | Manual copy/paste from ARM survey + internal Airtable + DPCMM/region spreadsheets into one Google Sheet; manual value-checking | Intermediate | This canonical reference table is the backbone of *every* cross-dataset question. We make it a **versioned, automatically-assembled deliverable**, not a hand-built one-off. |
-| ARM survey had **duplicate responses** per state and gaps | AVP had to ask CoSA for a hand-cleaned, de-duplicated version | Intermediate | De-dup + "one row per state per year" resolution becomes a **repeatable pipeline step**, not a favor requested from staff each time. |
-| **Use Case 1 multi-valued fields** (`FrameworkElements`, `State`) had to be split into separate related tables keyed by `ResourceID` | "Complex cross-sheet formulas" | **Expert** | This is the single hardest manual step — and it **disappears** when resources are modeled as structured records from the start. We never "un-spread" data; we capture it relationally up front. |
-| **Census population/expenditure** ingest | Find exact Census terms for territories, transpose columns→rows, multiply "thousands" ×1000, manually paste territory rows | Basic–Intermediate | Deterministic transforms → a documented, **re-runnable ingest script**. AVP themselves suggested CoSA pre-normalize and host these — exactly our "normalized external datasets as data products." |
-| **Missing-data encoding** in maps | Gray/white "hacky workaround," manual re-adjustment each year; gaps ambiguous (unreported vs. not-collected-by-source) | Intermediate | We treat **data-availability status** as an explicit field (reported / not-reported / not-collected) so gaps are honest and don't need re-hacking per year. |
-| **Geography** problems | Resources with no state land on "Null Island" (0,0); small states/DC/territories hard to see on a geographic map; filtering on null misbehaves | Intermediate | A **tile-grid / cartogram** map gives every jurisdiction equal visual weight and a real home for "no geography." See [§6.2](#62-mapping--visualization-tile-grid-maps-with-tableau). |
+
+| Step                                                                                                                                 | What it took                                                                                                                                   | AVP skill rating   | Our take                                                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Build the **master dataset** (states/territories × region, program, agency, budget, FTE, DPCMM, population, expenditures)            | Manual copy/paste from ARM survey + internal Airtable + DPCMM/region spreadsheets into one Google Sheet; manual value-checking                 | Intermediate       | This canonical reference table is the backbone of *every* cross-dataset question. We make it a **versioned, automatically-assembled deliverable**, not a hand-built one-off.                      |
+| ARM survey had **duplicate responses** per state and gaps                                                                            | AVP had to ask CoSA for a hand-cleaned, de-duplicated version                                                                                  | Intermediate       | De-dup + "one row per state per year" resolution becomes a **repeatable pipeline step**, not a favor requested from staff each time.                                                              |
+| **Use Case 1 multi-valued fields** (`FrameworkElements`, `State`) had to be split into separate related tables keyed by `ResourceID` | "Complex cross-sheet formulas"                                                                                                                 | **Expert**         | This is the single hardest manual step — and it **disappears** when resources are modeled as structured records from the start. We never "un-spread" data; we capture it relationally up front.   |
+| **Census population/expenditure** ingest                                                                                             | Find exact Census terms for territories, transpose columns→rows, multiply "thousands" ×1000, manually paste territory rows                     | Basic–Intermediate | Deterministic transforms → a documented, **re-runnable ingest script**. AVP themselves suggested CoSA pre-normalize and host these — exactly our "normalized external datasets as data products." |
+| **Missing-data encoding** in maps                                                                                                    | Gray/white "hacky workaround," manual re-adjustment each year; gaps ambiguous (unreported vs. not-collected-by-source)                         | Intermediate       | We treat **data-availability status** as an explicit field (reported / not-reported / not-collected) so gaps are honest and don't need re-hacking per year.                                       |
+| **Geography** problems                                                                                                               | Resources with no state land on "Null Island" (0,0); small states/DC/territories hard to see on a geographic map; filtering on null misbehaves | Intermediate       | A **tile-grid / cartogram** map gives every jurisdiction equal visual weight and a real home for "no geography." See [§6.2](#62-mapping--visualization-tile-grid-maps-with-tableau).              |
+
 
 **Net effect on the proposal:** no change of direction, but three things get *sharper*:
+
 1. The **"master dataset" becomes a named, first-class deliverable** — a maintained, versioned reference table that powers the dream-scenario "query across datasets" capability.
 2. The normalization workstream gets **specific, demonstrable wins** (automated de-dup, structured-from-the-start resources that skip the Expert-level reshape, scripted Census ingest) — strong evidence we'll *reduce* the labor that made the prior turnkey tool expensive.
 3. **Missing-data honesty and jurisdiction-fair mapping** move from a vague principle to concrete design commitments.
@@ -155,24 +161,28 @@ We present three coherent approaches. They are **not mutually exclusive**; C is 
 
 **Idea:** The Resource Center is a statically-generated website built from Markdown + structured data files (YAML/CSV/JSON) in a GitHub repository. Each resource is a file → an individual, linkable page with customizable front-matter metadata and taxonomy tags. Data lives as versioned CSV/JSON. Visualizations are embedded from free tools (Tableau Public / Looker Studio) or rendered client-side. Contributions come via web forms and GitHub Pull Requests; GitHub Actions run validation, build, and deploy.
 
-| Pros | Cons |
-|---|---|
-| Near-zero hosting cost; extremely durable | GitHub literacy required for some maintainer workflows |
-| Full version history & audit trail for free | Heavier "dynamic query" features need extra tooling |
-| No vendor lock-in; everything is plain files | Static model less natural for frequently-changing tabular data |
-| Plays directly to "migrate Resource Center to GitHub" | Real-time/interactive analytics not native |
-| Cheap to keep alive in Phase 2 | |
+
+| Pros                                                  | Cons                                                           |
+| ----------------------------------------------------- | -------------------------------------------------------------- |
+| Near-zero hosting cost; extremely durable             | GitHub literacy required for some maintainer workflows         |
+| Full version history & audit trail for free           | Heavier "dynamic query" features need extra tooling            |
+| No vendor lock-in; everything is plain files          | Static model less natural for frequently-changing tabular data |
+| Plays directly to "migrate Resource Center to GitHub" | Real-time/interactive analytics not native                     |
+| Cheap to keep alive in Phase 2                        |                                                                |
+
 
 ### Option B — Commercial platform-centric
 
 **Idea:** Lean on the existing **GrowthZone/WordPress** stack (or a hosted asset repository like **DSpace**, per AVP) for the Resource Center, and a **commercial data platform** (PowerBI, Tableau, or Airtable-as-source-of-truth) for the data repository and visualization. Closest to the literal RFP language ("commercial platform with data visualization and analytics tools available (e.g. PowerBI)").
 
-| Pros | Cons |
-|---|---|
+
+| Pros                               | Cons                                            |
+| ---------------------------------- | ----------------------------------------------- |
 | Matches RFP wording most literally | Recurring license costs eat into a finite grant |
-| Familiar GUIs for non-developers | Vendor lock-in; export/portability risk |
-| Less custom code to maintain | The prior "turnkey" pain lived here |
-| Vendor support contracts available | Customization often hits platform ceilings |
+| Familiar GUIs for non-developers   | Vendor lock-in; export/portability risk         |
+| Less custom code to maintain       | The prior "turnkey" pain lived here             |
+| Vendor support contracts available | Customization often hits platform ceilings      |
+
 
 ### Option C — Hybrid (tentative recommendation)
 
@@ -183,12 +193,14 @@ We present three coherent approaches. They are **not mutually exclusive**; C is 
 - **Visualization:** Free interactive dashboards (Tableau Public / Looker Studio) for the headline member-advocacy use cases, plus standard one-click exports (charts, tables, datasets). Custom lightweight charts only where embedding falls short.
 - **AI layer (incremental, optional):** Assisted ingestion (PDF/spreadsheet → structured, human-reviewed data), and a natural-language assistant that answers the FAQ-style questions over the Resource Center + datasets with citations.
 
-| Pros | Cons |
-|---|---|
-| Durable truth in Git + convenient editing/viz on top | More moving parts than A or B alone |
-| Realizes the "dream scenario" without betting the project on it | Requires clear boundaries to stay maintainable |
-| Cost-controlled (free/cheap core; paid only where it pays) | AI features need guardrails (accuracy, cost, governance) |
-| Graceful degradation: AI/viz can fail without data loss | |
+
+| Pros                                                            | Cons                                                     |
+| --------------------------------------------------------------- | -------------------------------------------------------- |
+| Durable truth in Git + convenient editing/viz on top            | More moving parts than A or B alone                      |
+| Realizes the "dream scenario" without betting the project on it | Requires clear boundaries to stay maintainable           |
+| Cost-controlled (free/cheap core; paid only where it pays)      | AI features need guardrails (accuracy, cost, governance) |
+| Graceful degradation: AI/viz can fail without data loss         |                                                          |
+
 
 **Why C, tentatively:** It directly answers the sustainability problem (durable, exportable, low-cost core), satisfies the RFP's commercial-viz expectation, builds on the existing GitHub mock-up and GrowthZone investment, and leaves a clear, *optional* path to the AI-powered dream scenario — which we can scope to fit whatever budget and appetite remain.
 
@@ -237,6 +249,7 @@ We present three coherent approaches. They are **not mutually exclusive**; C is 
 ```
 
 **Key design choices**
+
 - **Single shared taxonomy** (designed by Jess against digital-preservation standards) used by both the Resource Center and the data repository, so discovery is consistent.
 - **Provenance & "known gaps" as required fields**, addressing AVP's warning that visualizations can mislead by hiding missing data.
 - **Standard exports are first-class deliverables**, per the RFP ("Standard exports for specific products are essential").
@@ -268,15 +281,17 @@ The AVP proof of concept showed that almost every interesting question routes th
 
 **Tool fit:**
 
-| Need | Recommended | Notes |
-|---|---|---|
+
+| Need                                                                         | Recommended                                                                      | Notes                                                                   |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | Jurisdiction maps (resources by state, budget per capita, % of expenditures) | **Tile-grid map** — in Tableau (scatter + crosswalk) or lightweight in-site code | Same crosswalk CSV drives both; honest, controllable missing-data cells |
-| Tabular/statistical charts (bars, comparisons, distributions, filters) | **Tableau** (or PowerBI/Looker) | Matches RFP/AVP precedent; member-familiar dashboards |
-| In-site, private/tiered, version-controlled charts & maps | **Lightweight libs** (Observable Plot / Plotly / D3 / SVG) | Zero per-load cost; data can stay member-only |
+| Tabular/statistical charts (bars, comparisons, distributions, filters)       | **Tableau** (or PowerBI/Looker)                                                  | Matches RFP/AVP precedent; member-familiar dashboards                   |
+| In-site, private/tiered, version-controlled charts & maps                    | **Lightweight libs** (Observable Plot / Plotly / D3 / SVG)                       | Zero per-load cost; data can stay member-only                           |
+
 
 **Caveat retained:** **Tableau *Public* requires data to be public.** For member-only/tiered datasets we'd use a Tableau license that keeps data private, or render in-site; either way Tableau stays a first-class **export target**, not the system of record.
 
-**Mapbox — considered, not recommended.** We evaluated Mapbox GL JS. It's excellent for *true geospatial* work (zoomable basemaps, point/location layers, coordinate-level density/heat), but CoSA's data is one value per jurisdiction — where Mapbox adds an API token, usage-based pricing, and an external dependency for no real benefit over a tile-grid. We'd only revisit it if a future use case needs genuine map interactivity (e.g., plotting individual facility locations).
+**Mapbox — considered, not recommended.** We evaluated Mapbox GL JS. It's excellent for *true geospatial* work (zoomable basemaps, point/location layers, coordinate-level density/heat), but CoSA's data is one value per jurisdiction — where Mapbox adds an API token, usage-based pricing, and an external dependency for no real benefit over a tile-grid. We'd only revisit it if a future use case needs genuine map interactivity (e.g., plotting individual facility locations). *(This mapping recommendation comes from hands-on spatial-data experience: government web-mapping applications built at Applied Geographics with ArcGIS/GDAL, and authoring the open-source jQuery Geo mapping library.)*
 
 ---
 
@@ -285,6 +300,7 @@ The AVP proof of concept showed that almost every interesting question routes th
 You floated GitHub and AI agents — here's how we'd justify them to CoSA *without* overpromising.
 
 ### GitHub (high confidence, low risk)
+
 - **Migration target the RFP already names** ("migration of CoSA's Resource Center to GitHub or similar"), and a mock-up already lives there.
 - **Free version history, audit trail, and rollback** — directly supports Phase 2's "version control" requirement.
 - **Submissions & triggers:** web/issue forms and Pull Requests give a reviewable contribution pipeline; **GitHub Actions** automate validation, build, deploy, link-checking, and scheduled data exports — i.e., the system feeds itself instead of requiring paid developer time to "add data."
@@ -292,7 +308,9 @@ You floated GitHub and AI agents — here's how we'd justify them to CoSA *witho
 - **Cost:** effectively free for a nonprofit's needs (and GitHub offers nonprofit/education programs).
 
 ### AI agents (promising, but staged and guard-railed)
+
 Framed as **assistive, optional, human-in-the-loop** — never an unsupervised authority:
+
 - **Ingestion assist:** turn PDFs/spreadsheets/legacy survey files into draft structured records for a human to approve — attacks the exact pain point ("developer time just to add data").
 - **Natural-language query:** answer FAQ-style questions ("Do you have a policy on X?", "Guidelines on Y?", "How much did state Z spend on A?") over the Resource Center + datasets, returning **answers with citations/links** back to source resources and data.
 - **Guardrails we'd commit to:** every answer cites sources; AI never writes to the data-of-record without human review; usage costs are capped/monitored; the system fully functions (search, browse, dashboards) even if the AI layer is turned off.
@@ -307,40 +325,33 @@ Framed as **assistive, optional, human-in-the-loop** — never an unsupervised a
 Organized as parallel workstreams delivered incrementally (discovery → build → test-with-members → refine).
 
 1. **Discovery & Governance**
-   - Stakeholder interviews/focus groups (Jess-led); confirm priority users, use cases, and FAQs.
-   - Inventory existing resources, datasets, and the prior GitHub mock-up.
-   - Define data-governance basics: who curates, who approves, access tiers (public vs. member).
-
+  - Stakeholder interviews/focus groups (Jess-led); confirm priority users, use cases, and FAQs.
+  - Inventory existing resources, datasets, and the prior GitHub mock-up.
+  - Define data-governance basics: who curates, who approves, access tiers (public vs. member).
 2. **Taxonomy & Metadata**
-   - Design a preservation-standards-based, community-intuitive taxonomy and a metadata schema (incl. contributor/usage tracking).
-   - Validate with a small member cohort.
-
+  - Design a preservation-standards-based, community-intuitive taxonomy and a metadata schema (incl. contributor/usage tracking).
+  - Validate with a small member cohort.
 3. **Resource Center Build**
-   - Implement Git-native site, individual linkable resource pages, search/faceted browse, analytics.
-   - Integrate with WordPress/GrowthZone (embeds, links, consistent navigation/branding).
-   - Stand up the submission → review → publish pipeline.
-
+  - Implement Git-native site, individual linkable resource pages, search/faceted browse, analytics.
+  - Integrate with WordPress/GrowthZone (embeds, links, consistent navigation/branding).
+  - Stand up the submission → review → publish pipeline.
 4. **Data Repository & Normalization**
-   - Stand up the working datastore (submissions, longitudinal tracking, provenance/notes).
-   - Build the **master reference dataset** pipeline (jurisdictions × region/program/agency/budget/FTE/DPCMM/population/expenditures), incl. ARM de-duplication and per-year longitudinal keys.
-   - Build normalization workflows for CoSA + external sources (SAA, Census, IMLS) into a shared schema; **scripted, re-runnable Census ingest**.
-   - Model multi-valued resource fields as structured-from-the-start (no manual reshaping); attach **data-availability status** to every metric.
-   - Establish scheduled export to versioned, downloadable datasets (with data dictionaries + context).
-   - Reproduce AVP's two use cases ("Resources by State," "Budget per capita / % of expenditures") as an early end-to-end validation of the pipeline.
-
+  - Stand up the working datastore (submissions, longitudinal tracking, provenance/notes).
+  - Build the **master reference dataset** pipeline (jurisdictions × region/program/agency/budget/FTE/DPCMM/population/expenditures), incl. ARM de-duplication and per-year longitudinal keys.
+  - Build normalization workflows for CoSA + external sources (SAA, Census, IMLS) into a shared schema; **scripted, re-runnable Census ingest**.
+  - Model multi-valued resource fields as structured-from-the-start (no manual reshaping); attach **data-availability status** to every metric.
+  - Establish scheduled export to versioned, downloadable datasets (with data dictionaries + context).
+  - Reproduce AVP's two use cases ("Resources by State," "Budget per capita / % of expenditures") as an early end-to-end validation of the pipeline.
 5. **Visualization & Exports**
-   - Build the headline interactive dashboard(s) for advocacy/comparison use cases.
-   - Use **tile-grid maps** for jurisdiction metrics (built in Tableau via scatter + a versioned crosswalk CSV, or as lightweight in-site code); honest missing-data cells.
-   - Implement standard, repeatable exports (charts, tables, datasets), including Tableau/PowerBI-friendly outputs.
-
+  - Build the headline interactive dashboard(s) for advocacy/comparison use cases.
+  - Use **tile-grid maps** for jurisdiction metrics (built in Tableau via scatter + a versioned crosswalk CSV, or as lightweight in-site code); honest missing-data cells.
+  - Implement standard, repeatable exports (charts, tables, datasets), including Tableau/PowerBI-friendly outputs.
 6. **AI Layer (optional/incremental)**
-   - Pilot ingestion assist and NL query on a bounded dataset; measure accuracy/cost; expand if validated.
-
+  - Pilot ingestion assist and NL query on a bounded dataset; measure accuracy/cost; expand if validated.
 7. **Testing, Feedback & Iteration**
-   - Recurring member testing; incorporate feedback; pivot as needed (explicitly welcomed by CoSA).
-
+  - Recurring member testing; incorporate feedback; pivot as needed (explicitly welcomed by CoSA).
 8. **Documentation, Training & Reporting**
-   - Maintainer/runbook docs, user guides, training sessions; interim reports/presentations; final report with maintenance recommendations.
+  - Maintainer/runbook docs, user guides, training sessions; interim reports/presentations; final report with maintenance recommendations.
 
 ---
 
@@ -350,18 +361,21 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 
 ### Phase 1 — Design & Implementation (~24 months, $100,000 ceiling)
 
-| Period | Focus | Representative milestones |
-|---|---|---|
-| Q1 | Discovery & foundations | Stakeholder interviews; inventory; governance v0; taxonomy draft; repo + CI scaffolding |
-| Q2 | Resource Center MVP | Linkable resource pages, metadata schema, search/browse, submission pipeline; first member test |
-| Q3 | Data repository MVP | Working datastore, provenance model, first normalized dataset; export-to-Git pipeline |
-| Q4 | Visualization v1 | First interactive dashboard + standard exports; **interim report/presentation** |
-| Q5 | Integration & breadth | WordPress/GrowthZone integration; more datasets normalized; analytics; refine taxonomy from feedback |
-| Q6 | AI pilot (optional) | Ingestion-assist + NL-query pilot on bounded data; evaluate accuracy/cost/governance |
-| Q7 | Hardening & docs | Performance, accessibility, security; maintainer runbooks; user guides; training drafts |
-| Q8 | Handoff readiness | Member testing round; **final Phase 1 report/presentation**; maintenance recommendations; Phase 2 plan |
+
+| Period | Focus                   | Representative milestones                                                                              |
+| ------ | ----------------------- | ------------------------------------------------------------------------------------------------------ |
+| Q1     | Discovery & foundations | Stakeholder interviews; inventory; governance v0; taxonomy draft; repo + CI scaffolding                |
+| Q2     | Resource Center MVP     | Linkable resource pages, metadata schema, search/browse, submission pipeline; first member test        |
+| Q3     | Data repository MVP     | Working datastore, provenance model, first normalized dataset; export-to-Git pipeline                  |
+| Q4     | Visualization v1        | First interactive dashboard + standard exports; **interim report/presentation**                        |
+| Q5     | Integration & breadth   | WordPress/GrowthZone integration; more datasets normalized; analytics; refine taxonomy from feedback   |
+| Q6     | AI pilot (optional)     | Ingestion-assist + NL-query pilot on bounded data; evaluate accuracy/cost/governance                   |
+| Q7     | Hardening & docs        | Performance, accessibility, security; maintainer runbooks; user guides; training drafts                |
+| Q8     | Handoff readiness       | Member testing round; **final Phase 1 report/presentation**; maintenance recommendations; Phase 2 plan |
+
 
 ### Phase 2 — Maintenance & Sustainability (~24 months, $50,000 ceiling; can overlap)
+
 - Content-update system & schedule; SEO confirmation; data map for AMS elements.
 - User-feedback system; finalize resource/taxonomy/architecture migration.
 - Tool updates, version-control plan, user documentation, outreach & training.
@@ -376,6 +390,7 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 ## 10. Deliverables
 
 **Software & systems**
+
 - Resource Center website (Git-native), integrated with CoSA's WordPress/GrowthZone, with:
   - individual linkable resource pages across formats (docs, A/V, datasets, code),
   - customizable metadata + contributor/usage tracking,
@@ -389,9 +404,11 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 - *(Optional)* AI ingestion-assist and natural-language query with citations.
 
 **Documentation**
+
 - Architecture & data map; metadata/taxonomy specification; data dictionaries with provenance/known-gaps; maintainer runbooks; user guides.
 
 **Engagement & reporting**
+
 - Interim reports and presentations (as needed).
 - Training sessions for CoSA staff/volunteers and the community.
 - Final report and presentation with **maintenance/sustainability recommendations**.
@@ -400,40 +417,44 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 
 ## 11. Challenges & Risks
 
-| # | Challenge / Risk | Likelihood | Impact | Mitigation |
-|---|---|---|---|---|
-| 1 | **Sustainability** — CoSA has no dev staff; prior turnkey tool was costly to feed | High | High | Durable plain-file core; automation does the "adding data"; runbooks; train staff/volunteers; design Phase 2 handoff from day one |
-| 2 | **Messy/legacy data** (1990s→present, many tools/formats; ARM duplicate responses; gaps) | High | Med | Incremental normalization; automated de-dup + master-dataset pipeline; data dictionaries; provenance + data-availability status as required fields |
-| 3 | **Misleading visualizations** hiding/misattributing data gaps (AVP warning) | Med | High | Explicit data-availability status; tile-grid maps with honest "no data" cells; distinguish "unreported" vs. "not collected by source"; archivist review before publishing |
-| 3b | **Tableau Public requires public data** — conflicts with member-only/tiered access; hand-built workbooks brittle to re-style yearly | Med | Med | Don't make Tableau Public the system of record; render maps as versioned code; offer Tableau/PowerBI as *export* targets, not the source of truth |
-| 4 | **GitHub literacy** for non-developer maintainers | Med | Med | Form-based contribution (no Git needed for most); clear guides; optional light GUI layer |
-| 5 | **AI accuracy / hallucination / cost** | Med | Med–High | Citations required; human-in-the-loop; cost caps; system works fully with AI disabled |
-| 6 | **Vendor lock-in / recurring license cost** vs. finite grant | Med | Med | Own the durable layer in open formats; rent only where it pays; budget licenses explicitly |
-| 7 | **Integration friction** with WordPress/GrowthZone | Med | Med | Early integration spike; embeds/links + shared taxonomy; confirm GrowthZone API/options in discovery |
-| 8 | **Scope creep** from an open-ended "dream scenario" | Med | Med | Phased/optional AI; member-tested priorities; change log; explicit MVP boundaries |
-| 9 | **Member engagement/participation** (declining survey response per AVP) | Med | Med | Low-friction submission; show value back via dashboards; Jess-led community engagement |
-| 10 | **Two-person team / bus factor** | Med | Med | Document everything; standard tools; cross-training; clear handoff to CoSA |
-| 11 | **Timeline slip** from delayed/reposted start | Med | Med | Incremental delivery so value lands early; re-baseline with Joy at kickoff |
-| 12 | **Accessibility & privacy** (public sector, tiered data access) | Med | Med–High | WCAG-minded build; access tiers (public vs. member); anonymization options per AVP rec. 6 |
+
+| #   | Challenge / Risk                                                                                                                    | Likelihood | Impact   | Mitigation                                                                                                                                                                |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Sustainability** — CoSA has no dev staff; prior turnkey tool was costly to feed                                                   | High       | High     | Durable plain-file core; automation does the "adding data"; runbooks; train staff/volunteers; design Phase 2 handoff from day one                                         |
+| 2   | **Messy/legacy data** (1990s→present, many tools/formats; ARM duplicate responses; gaps)                                            | High       | Med      | Incremental normalization; automated de-dup + master-dataset pipeline; data dictionaries; provenance + data-availability status as required fields                        |
+| 3   | **Misleading visualizations** hiding/misattributing data gaps (AVP warning)                                                         | Med        | High     | Explicit data-availability status; tile-grid maps with honest "no data" cells; distinguish "unreported" vs. "not collected by source"; archivist review before publishing |
+| 3b  | **Tableau Public requires public data** — conflicts with member-only/tiered access; hand-built workbooks brittle to re-style yearly | Med        | Med      | Don't make Tableau Public the system of record; render maps as versioned code; offer Tableau/PowerBI as *export* targets, not the source of truth                         |
+| 4   | **GitHub literacy** for non-developer maintainers                                                                                   | Med        | Med      | Form-based contribution (no Git needed for most); clear guides; optional light GUI layer                                                                                  |
+| 5   | **AI accuracy / hallucination / cost**                                                                                              | Med        | Med–High | Citations required; human-in-the-loop; cost caps; system works fully with AI disabled                                                                                     |
+| 6   | **Vendor lock-in / recurring license cost** vs. finite grant                                                                        | Med        | Med      | Own the durable layer in open formats; rent only where it pays; budget licenses explicitly                                                                                |
+| 7   | **Integration friction** with WordPress/GrowthZone                                                                                  | Med        | Med      | Early integration spike; embeds/links + shared taxonomy; confirm GrowthZone API/options in discovery                                                                      |
+| 8   | **Scope creep** from an open-ended "dream scenario"                                                                                 | Med        | Med      | Phased/optional AI; member-tested priorities; change log; explicit MVP boundaries                                                                                         |
+| 9   | **Member engagement/participation** (declining survey response per AVP)                                                             | Med        | Med      | Low-friction submission; show value back via dashboards; Jess-led community engagement                                                                                    |
+| 10  | **Two-person team / bus factor**                                                                                                    | Med        | Med      | Document everything; standard tools; cross-training; clear handoff to CoSA                                                                                                |
+| 11  | **Timeline slip** from delayed/reposted start                                                                                       | Med        | Med      | Incremental delivery so value lands early; re-baseline with Joy at kickoff                                                                                                |
+| 12  | **Accessibility & privacy** (public sector, tiered data access)                                                                     | Med        | Med–High | WCAG-minded build; access tiers (public vs. member); anonymization options per AVP rec. 6                                                                                 |
+
 
 ---
 
 ## 12. Requirements Traceability (RFP → Solution)
 
-| RFP requirement (Phase 1) | How we address it |
-|---|---|
-| Individual, linkable pages for varied resource formats | Git-native page-per-resource; supports docs/A/V/datasets/code via links + embeds |
-| Customizable metadata; contributor/usage tracking | Front-matter metadata schema; contributor + analytics tracking |
-| Preservation-standards taxonomy, intuitive to community | Jess-designed taxonomy validated with members |
-| Integrate with CoSA website & GrowthZone Community | Embeds/links, shared taxonomy/branding; integration spike in discovery |
-| Usage analytics | Privacy-friendly web analytics on site + dashboards |
-| Online data repository, multiple formats | Working datastore + versioned exports |
-| Commercial platform w/ viz & analytics (e.g., PowerBI) | Tableau Public/Looker (free tier) or PowerBI for dashboards; CoSA's choice |
-| Accept submissions; longitudinal; provenance/context | Submission pipeline; longitudinal tracking; provenance/notes as required fields |
-| Recommend efficient collection/export (GrowthZone Forms, Sogolytics, SurveyMonkey) | Collection-strategy recommendations in discovery + reporting |
-| Standardized workflows across CoSA/SAA/Census/IMLS | Normalization pipelines to a shared schema |
-| Export to datasets/graphs/visualizations; standard exports essential | First-class, repeatable export deliverables |
-| Interim & final reports/presentations; maintenance recs | Built into reporting cadence + final deliverable |
+
+| RFP requirement (Phase 1)                                                          | How we address it                                                                |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Individual, linkable pages for varied resource formats                             | Git-native page-per-resource; supports docs/A/V/datasets/code via links + embeds |
+| Customizable metadata; contributor/usage tracking                                  | Front-matter metadata schema; contributor + analytics tracking                   |
+| Preservation-standards taxonomy, intuitive to community                            | Jess-designed taxonomy validated with members                                    |
+| Integrate with CoSA website & GrowthZone Community                                 | Embeds/links, shared taxonomy/branding; integration spike in discovery           |
+| Usage analytics                                                                    | Privacy-friendly web analytics on site + dashboards                              |
+| Online data repository, multiple formats                                           | Working datastore + versioned exports                                            |
+| Commercial platform w/ viz & analytics (e.g., PowerBI)                             | Tableau Public/Looker (free tier) or PowerBI for dashboards; CoSA's choice       |
+| Accept submissions; longitudinal; provenance/context                               | Submission pipeline; longitudinal tracking; provenance/notes as required fields  |
+| Recommend efficient collection/export (GrowthZone Forms, Sogolytics, SurveyMonkey) | Collection-strategy recommendations in discovery + reporting                     |
+| Standardized workflows across CoSA/SAA/Census/IMLS                                 | Normalization pipelines to a shared schema                                       |
+| Export to datasets/graphs/visualizations; standard exports essential               | First-class, repeatable export deliverables                                      |
+| Interim & final reports/presentations; maintenance recs                            | Built into reporting cadence + final deliverable                                 |
+
 
 ---
 
@@ -484,23 +505,28 @@ To turn this draft into a tight, single-approach proposal:
 ## 16. Appendix
 
 ### A. Glossary
+
 - **AMS** — Association Management System (CoSA uses **GrowthZone**).
 - **ARM Survey** — Archives and Records Management survey (a major CoSA dataset; reimagined iteration expected ~2026).
 - **DPCMM** — Digital Preservation Capability Maturity Model (survey/scoring).
 - **AVP** — The consultancy that produced the 2024 planning recommendations and Tableau Public POCs.
+- **IMLS** — Institute of Museum and Library Services, an independent ⁠U.S. federal agency that acts as the primary source of federal funding, policy development, and research for the nation’s libraries, museums, and related cultural organizations—including archives.
 - **POC** — Proof of Concept.
 - **RAG** — Retrieval-Augmented Generation (AI answers grounded in cited source documents/data).
+- **SAA** — Society of American Archivists, the oldest and largest national professional association for archivists in North America.
 - **Master dataset** — the canonical, versioned reference table (one row per jurisdiction, optionally per year) that joins CoSA and external metrics for cross-dataset analysis.
 - **Choropleth** — a map that shades geographic areas by a data value.
 - **Tile-grid / cartogram map** — a map that gives each jurisdiction an equal-size cell in a roughly geographic layout, so small states, DC, and territories are equally visible.
 - **Spatial crosswalk** — a small lookup file mapping each jurisdiction to a grid position (row/column), used to render tile-grid maps in Tableau (as a scatter plot) or in-site libraries.
 
 ### B. Source documents
+
 - `proposals/rfp.pdf` — CoSA Call for Proposals (Phase 1 & Phase 2 scopes, qualifications, funding, timeline).
 - `proposals/recommendations.pdf` — AVP "State and Territorial Archive Data Aggregation Planning Project — Recommendations Report" (June 20, 2024).
 - `proposals/poc-findings.pdf` — AVP "Proof of Concept Findings" (May 7, 2024): two end-to-end Tableau Public use cases with step-by-step data-prep effort and skill ratings.
 
 ### C. AVP's six recommendations (for reference)
+
 1. Adopt an AMS (→ GrowthZone, done Dec 2024).
 2. Bring ARM survey data into the AMS.
 3. Develop an interactive dashboard for members.
@@ -509,3 +535,4 @@ To turn this draft into a tight, single-approach proposal:
 6. Streamline survey & data collection methods.
 
 > We are **not bound** to these specifics (the RFP says so), but our approach builds on and complements them.
+

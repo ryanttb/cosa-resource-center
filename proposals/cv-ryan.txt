@@ -1,0 +1,45 @@
+Name: Ryan Morrison-Westphal 
+GitHub: ryanttb 
+Bluesky: mooseatplay.itch.io 
+
+General Skills 
+* Relational & NoSQL Databases 
+* REST, HTTP, AWS, & GCP 
+* C++, C#, Java, Kotlin, & Rust 
+* React, TypeScript, & Python 
+* Desktop, Device, & Web Apps 
+* Embedded devices & consoles 
+
+Experience 
+
+* Amazon | Software Engineer II; 2018 - 2025;  
+** Design & deploy Alexa Knowledge cloud features including Question Ingestion, the "By the Way" experience, and Follow-up Answers (Kotlin, AWS)
+** Built 2nd-gen cloud services to decrease network traffic between consumer devices and content providers for the Home slideshow (Kotlin)
+** Design & implementation of visual device software for the Alexa Home experience, visible to and interacted-with by millions daily (Kotlin, C++)
+** Most work is behind NDA
+
+* Berkman Klein Center for Internet and Society at Harvard University | Full Stack Developer; 2012 - 2018;  
+** Design and deploy applications alongside Cyber Law, Library, & Media researchers to collect, analyze, & display data including: 
+*** Lumen Database (https://github.com/berkmancenter/lumendatabase): Track DMCA takedown notices on a large volume, heavily automated ingestion and search engine (SOLR-based) with data provided by, e.g., Google, Meta, & US Government
+*** Emily Dickinson Archive (https://github.com/berkmancenter/eda): searchable database of her written works with interactive pan & scan (IIIF Image Server + OpenSeadragon) of her writing, edits (TEI), lexicon, and community interpretations
+*** Curarium (https://github.com/berkmancenter/curarium): a collection of collections, it is a platform which leverages the power of the crowd in order to annotate, curate, and visualize works within and beyond their respective collections (heavy use of custom datavis to search & show collection metadata)
+**** Curarium may be closest to this project's "feel" of community-added data with search and datavis as output; might be worth noting for you that this never made it to release due to scope creep and staff turnover
+*** The Internet Monitor (https://github.com/berkmancenter/internet_monitor): give policy makers, digital activists, researchers, and user communities an authoritative, independent, and multi-faceted set of quantitative data on the state of the global Internet; the platform compiles and curates data from many sources
+
+* Solo Developer | Side Project: jQuery Geo; 2008 - 2012; 
+** While working at Applied Geographics and Harvard, I worked on a personal side project where I designed & implemented the open-source jQuery Geo library, a highly documented plugin to consume, display, and interact with map, image, and spatial data services 
+** The project is archived but functional and continues to get NPM downloads weekly, even in 2026
+
+* Applied Geographics | Full Stack Developer; 2005 - 2012;  
+** Design, implement, and deploy web, mobile, & desktop mapping applications using spatial data, APIs, and C#.NET for municipal and national clients 
+** C#.NET services, full government customer needs assessment sessions, modern web UI/UX even back then
+
+Education 
+* Rochester Institute of Technology; Class of 2001; BS in Computer Science
+* I am still an active member of Computer Science House, an RIT student organization which focuses on computers & technology 
+ 
+
+Hobbies (unrelated unless you can find a reason to include)
+* Video Games & Indie Dev 
+* Japanese Language & Culture 
+* LEGO 
