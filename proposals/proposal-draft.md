@@ -3,7 +3,7 @@
 **Project:** State and Territorial Archive Data Aggregation — Implementation Grant
 **Submitted to:** Council of State Archivists (CoSA) — Joy Banks, Executive Director
 **Prepared by:** Ryan Morrison-Westphal (senior software developer) & Jess Farrell (archivist)
-**Phase(s) addressed:** Phase 1 — Technical Design & Implementation (and optionally Phase 2 — Maintenance)
+**Phase(s) addressed:** Both phases — Phase 1 (Technical Design & Implementation) **and** Phase 2 (Technical Maintenance)
 **Status:** Internal working draft — iterate freely. Not yet sent to CoSA.
 **Last updated:** 2026-06-04
 
@@ -49,13 +49,15 @@ Our team pairs a **senior developer** (architecture, automation, data engineerin
 
 We propose a **Git-native, low-maintenance core** with **commercial visualization where it earns its keep**, optionally augmented by **AI-assisted ingestion and natural-language querying** to realize CoSA's "dream scenario" — all introduced incrementally so CoSA is never locked into something it can't sustain.
 
+**We are bidding both phases.** Phase 1 designs and builds the Resource Center and data-visualization tools; Phase 2 hardens them, trains staff and volunteers, and folds routine maintenance into CoSA's existing capacity. Bidding both lets the *same* team carry the work from design through sustainable handoff — exactly the continuity the RFP encourages when it expects the selected parties "to work in tandem for some portion of the project term."
+
 ---
 
 ## 2. Motivations & Qualifications
 
 ### Why we're motivated
 
-My career has centered on public-interest data: at Harvard's Berkman Klein Center I built systems that made civic and legal data usable for policymakers, researchers, and the public — the Lumen DMCA-transparency database and the Internet Monitor among them. That work convinced me that member-serving organizations are better served by durable, open, low-cost tooling they control than by rented black boxes that cost money just to keep fed. This project pairs exactly that conviction with archival rigor — and I've seen the cost of getting it wrong: a community-contributed data-and-visualization platform I helped build (Curarium) never shipped, undone by scope creep, and I want to do that idea right this time. The longevity I want for CoSA is the kind I still see in my own open-source work — the jQuery Geo mapping library I wrote over a decade ago is still downloaded weekly in 2026, with no one paying to keep it alive.
+Ryan: My career has centered on public-interest data: at Harvard's Berkman Klein Center I built systems that made civic and legal data usable for policymakers, researchers, and the public — the Lumen DMCA-transparency database and the Internet Monitor among them. That work convinced me that member-serving organizations are better served by durable, open, low-cost tooling they control than by rented black boxes that cost money just to keep fed. This project pairs exactly that conviction with archival rigor — and I've seen the cost of getting it wrong: a community-contributed data-and-visualization platform I helped build (Curarium) never shipped, undone by scope creep, and I want to do that idea right this time. The longevity I want for CoSA is the kind I still see in my own open-source work — the jQuery Geo mapping library I wrote over a decade ago is still downloaded weekly in 2026, with no one paying to keep it alive.
 
 > `TODO (Jess)`: 2–4 sentences from the archivist's perspective — stewardship, metadata/taxonomy, serving the state-archives community, making data actionable for advocacy.
 
@@ -76,21 +78,38 @@ My career has centered on public-interest data: at Harvard's Berkman Klein Cente
 
 | RFP-required qualification                                                        | Who covers it | Evidence (`TODO`) |
 | --------------------------------------------------------------------------------- | ------------- | ----------------- |
-| Data visualization (Tableau Public, interactive dashboards)                       | Dev (+ Jess)  | Amazon (2018–2025): built and iterated internal dashboards from cloud & device metrics that drove weekly Ops decisions, bug detection, and prioritization. Berkman Klein: custom visualization for Curarium (collection-metadata search/viz) and the Internet Monitor (multi-source quantitative indicators); authored the open-source jQuery Geo map/spatial-data viz library; built government web-mapping apps at Applied Geographics. Strong custom viz incl. mapping — no Tableau by name, but ready to adopt it (the proposal also supports in-site rendering). |
-| Project management of complex projects (nonprofit/academic preferred)             | Both          | Technical/lead developer on complex, multi-year, multi-stakeholder builds at Harvard's Berkman Klein Center (2012–2018; academic/nonprofit research) and Amazon (2018–2025), partnering closely with dedicated PMs and researchers; at Applied Geographics designed and led junior developers on government grant projects, incl. the federally funded National Broadband Map. *(Jess: add archivist project-coordination evidence.)* |
+| Data visualization (Tableau Public, interactive dashboards)                       | Dev (+ Archivist)  | Amazon (2018–2025): built and iterated internal dashboards from cloud & device metrics that drove weekly Ops decisions, bug detection, and prioritization. Berkman Klein: custom visualization for Curarium (collection-metadata search/viz) and the Internet Monitor (multi-source quantitative indicators); authored the open-source jQuery Geo map/spatial-data viz library; built government web-mapping apps at Applied Geographics. Strong custom viz incl. mapping — no Tableau by name, but ready to adopt it (the proposal also supports in-site rendering). |
+| Project management of complex projects (nonprofit/academic preferred)             | Both          | Technical/lead developer on complex, multi-year, multi-stakeholder builds at Harvard's Berkman Klein Center (2012–2018; academic/nonprofit research) and Amazon (2018–2025), partnering closely with dedicated PMs and researchers; at Applied Geographics designed and led junior developers on government grant projects, incl. the federally funded National Broadband Map. *(Archivist: add archivist project-coordination evidence.)* |
 | Web development & design, SEO, UX                                                 | Dev           | 15+ years full-stack web. At Applied Geographics (2005–2012) personally designed every site and led junior devs task-by-task, delivering government web/mapping apps on MS SQL Server, ASP.NET, and C#.NET (ArcGIS/GDAL) — e.g., a FEMA resource-tracking site, the federal National Broadband Map, a Taunton, MA wetlands-permitting site with automated location-based PDF generation, and public assessor-lookup apps for many municipalities. Berkman Klein (2012–2018) and React/TypeScript work since. SEO was secondary on prior targeted gov/researcher audiences; general working knowledge, ready to deepen it for CoSA. |
-| CMS/AMS familiarity; website platform migration                                   | Both          | Deployed and maintained WordPress (CoSA's current stack), Drupal, and WikiMedia instances, plus the Refinery (Ruby) CMS for the Internet Monitor. Hands-on multi-platform CMS operation; GrowthZone specifics to confirm in discovery. *(Jess: add AMS/community-platform evidence.)* |
+| CMS/AMS familiarity; website platform migration                                   | Both          | Deployed and maintained WordPress (CoSA's current stack), Drupal, and WikiMedia instances, plus the Refinery (Ruby) CMS for the Internet Monitor. Hands-on multi-platform CMS operation; GrowthZone specifics to confirm in discovery. *(Archivist: add AMS/community-platform evidence.)* |
 | Data management — cleaning, linking datasets, data maps                           | Dev           | Berkman Klein's Lumen Database: high-volume, heavily automated ingestion + SOLR search over DMCA-notice data supplied by Google, Meta, and the U.S. government. Internet Monitor: compiled and curated quantitative data from many sources. At Applied Geographics, built the federal National Broadband Map to normalize provider coverage/pricing data nationwide and converted many municipal assessor databases into public web-mapping apps. Relational (MS SQL Server) & NoSQL throughout. |
 | GitHub / similar for hosting & managing resources                                 | Dev           | Active open-source maintainer (GitHub: ryanttb). Authored the open-source jQuery Geo library (2008–2012), still downloaded weekly on NPM in 2026. All Berkman Klein projects — Lumen, Emily Dickinson Archive, Curarium, Internet Monitor — are public GitHub repositories. |
-| Strong written/oral communication; clear documentation                            | Both          | Authored extensively documented open-source software (jQuery Geo); ran government customer needs-assessment sessions at Applied Geographics (stakeholder-facing oral communication); translated researcher requirements into deployed systems at Berkman Klein; at Amazon, regularly presented technical designs to senior management for review and approval in formal design-review sessions. *(Jess: add writing/presentation evidence.)* |
-| Stakeholder engagement (board, retirees, volunteers, sponsors, partners)          | Jess          |                   |
-| Focus groups & surveys                                                            | Jess          |                   |
-| Familiarity with archives / government / libraries / museums / records management | Jess          |                   |
+| Strong written/oral communication; clear documentation                            | Both          | Authored extensively documented open-source software (jQuery Geo); ran government customer needs-assessment sessions at Applied Geographics (stakeholder-facing oral communication); translated researcher requirements into deployed systems at Berkman Klein; at Amazon, regularly presented technical designs to senior management for review and approval in formal design-review sessions. *(Archivist: add writing/presentation evidence.)* |
+| Stakeholder engagement (board, retirees, volunteers, sponsors, partners)          | Archivist     |                   |
+| Focus groups & surveys                                                            | Archivist     |                   |
+| Familiarity with archives / government / libraries / museums / records management | Archivist     |                   |
 | Eligible to work in the U.S.                                                      | Both          | Yes — both team members are U.S. work-eligible. |
 | Able to travel to an in-person gathering                                          | Both          | Yes — both able to travel. |
 
 
-*(Phase 2 adds: training-material development, website maintenance, version control, cloud-based systems, user-feedback integration, community building. Map these too if we bid Phase 2.)*
+### Qualifications mapped to RFP requirements (Phase 2)
+
+> We are bidding Phase 2 as well, so we map its required qualifications here too. Fill the "Evidence" column with concrete projects, roles, tools, and outcomes. Be specific (system names, scale, dates).
+
+
+| RFP-required qualification (Phase 2)                                              | Who covers it | Evidence (`TODO`) |
+| --------------------------------------------------------------------------------- | ------------- | ----------------- |
+| Strong written/oral communication; clear, concise user documentation             | Both          | Authored extensively documented open-source software (jQuery Geo); ran government customer needs-assessment sessions at Applied Geographics; translated researcher requirements into deployed systems at Berkman Klein; at Amazon, regularly presented technical designs to senior management in formal design-review sessions. *(Archivist: add writing/documentation evidence.)* |
+| Developing training materials & instructing diverse audiences                     | Both          | Dev: authored user-facing docs and API guides for open-source software (jQuery Geo) and maintainer runbooks; conducted hands-on customer training/needs sessions at Applied Geographics. *(Archivist: add training-material development & instruction evidence — core archivist/community-facing strength.)* |
+| Website maintenance, content management & data visualization tools                | Dev (+ Archivist)  | Deployed and maintained WordPress (CoSA's current stack), Drupal, WikiMedia, and the Refinery (Ruby) CMS over multi-year periods; built and iterated interactive dashboards from cloud/device metrics at Amazon (2018–2025) and custom visualization at Berkman Klein (Curarium, Internet Monitor). Tableau adoption ready (see Phase 1). |
+| Cloud-based systems, data management & version control                            | Dev           | Active open-source maintainer on GitHub (ryanttb); version control central to 15+ years of delivery. High-volume, heavily automated ingestion + SOLR search on Berkman Klein's Lumen Database; cloud/device-metric pipelines and dashboards at Amazon; relational (MS SQL Server) & NoSQL throughout. |
+| Collecting & integrating user feedback to improve tools                           | Both          | Dev: iterated internal dashboards at Amazon directly from Ops feedback; ran needs-assessment sessions to shape government web apps at Applied Geographics. *(Archivist: add community user-feedback / Calls-to-Members evidence.)* |
+| Strong project management; works independently and as part of a team              | Both          | Technical/lead developer on complex, multi-year, multi-stakeholder builds at Harvard's Berkman Klein Center (2012–2018) and Amazon (2018–2025), partnering with dedicated PMs; led junior developers on government grant projects at Applied Geographics, incl. the federally funded National Broadband Map. *(Archivist: add archivist project-coordination evidence.)* |
+| Community building & engagement (esp. nonprofit/archival)                         | Archivist     |                   |
+| CMS/AMS familiarity; optimizing websites to new platforms                         | Both          | Deployed and maintained WordPress (CoSA's current stack), Drupal, and WikiMedia instances, plus the Refinery (Ruby) CMS for the Internet Monitor; hands-on multi-platform CMS operation; GrowthZone specifics to confirm in discovery. *(Archivist: add AMS/community-platform evidence.)* |
+| Stakeholder engagement (board, retirees, volunteers, sponsors, partners)          | Archivist     |                   |
+| Familiarity with archives / government / libraries / museums / records management | Archivist     |                   |
+| Eligible to work in the U.S.                                                      | Both          | Yes — both team members are U.S. work-eligible. |
 
 ---
 
@@ -250,7 +269,7 @@ We present three coherent approaches. They are **not mutually exclusive**; C is 
 
 **Key design choices**
 
-- **Single shared taxonomy** (designed by Jess against digital-preservation standards) used by both the Resource Center and the data repository, so discovery is consistent.
+- **Single shared taxonomy** (designed by Archivist against digital-preservation standards) used by both the Resource Center and the data repository, so discovery is consistent.
 - **Provenance & "known gaps" as required fields**, addressing AVP's warning that visualizations can mislead by hiding missing data.
 - **Standard exports are first-class deliverables**, per the RFP ("Standard exports for specific products are essential").
 - **Normalization workflows** to map CoSA/SAA/Census/IMLS data into a common schema for comparison (e.g., the state/territory master dataset AVP already prototyped).
@@ -325,7 +344,7 @@ Framed as **assistive, optional, human-in-the-loop** — never an unsupervised a
 Organized as parallel workstreams delivered incrementally (discovery → build → test-with-members → refine).
 
 1. **Discovery & Governance**
-  - Stakeholder interviews/focus groups (Jess-led); confirm priority users, use cases, and FAQs.
+  - Stakeholder interviews/focus groups (Archivist-led); confirm priority users, use cases, and FAQs.
   - Inventory existing resources, datasets, and the prior GitHub mock-up.
   - Define data-governance basics: who curates, who approves, access tiers (public vs. member).
 2. **Taxonomy & Metadata**
@@ -383,7 +402,7 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 - Assessment via existing mechanisms (e.g., annual Calls to Members); communication/training plan.
 - **Goal:** fold routine maintenance into existing CoSA staff/volunteer roles by grant end.
 
-> The RFP encourages bidding one or both phases and expects selected parties to **work in tandem** for part of the term. `TODO`: decide whether we bid Phase 1 only, or Phase 1 + 2.
+> **We are bidding both phases.** The RFP expects selected parties to **work in tandem** for part of the term; carrying both phases with one team gives CoSA continuity from design through sustainable handoff. Phase 2 (~2027–2028) overlaps the back half of Phase 1 so maintenance practices are built in, not bolted on.
 
 ---
 
@@ -429,7 +448,7 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 | 6   | **Vendor lock-in / recurring license cost** vs. finite grant                                                                        | Med        | Med      | Own the durable layer in open formats; rent only where it pays; budget licenses explicitly                                                                                |
 | 7   | **Integration friction** with WordPress/GrowthZone                                                                                  | Med        | Med      | Early integration spike; embeds/links + shared taxonomy; confirm GrowthZone API/options in discovery                                                                      |
 | 8   | **Scope creep** from an open-ended "dream scenario"                                                                                 | Med        | Med      | Phased/optional AI; member-tested priorities; change log; explicit MVP boundaries                                                                                         |
-| 9   | **Member engagement/participation** (declining survey response per AVP)                                                             | Med        | Med      | Low-friction submission; show value back via dashboards; Jess-led community engagement                                                                                    |
+| 9   | **Member engagement/participation** (declining survey response per AVP)                                                             | Med        | Med      | Low-friction submission; show value back via dashboards; Archivist-led community engagement                                                                                    |
 | 10  | **Two-person team / bus factor**                                                                                                    | Med        | Med      | Document everything; standard tools; cross-training; clear handoff to CoSA                                                                                                |
 | 11  | **Timeline slip** from delayed/reposted start                                                                                       | Med        | Med      | Incremental delivery so value lands early; re-baseline with Joy at kickoff                                                                                                |
 | 12  | **Accessibility & privacy** (public sector, tiered data access)                                                                     | Med        | Med–High | WCAG-minded build; access tiers (public vs. member); anonymization options per AVP rec. 6                                                                                 |
@@ -444,7 +463,7 @@ Organized as parallel workstreams delivered incrementally (discovery → build �
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | Individual, linkable pages for varied resource formats                             | Git-native page-per-resource; supports docs/A/V/datasets/code via links + embeds |
 | Customizable metadata; contributor/usage tracking                                  | Front-matter metadata schema; contributor + analytics tracking                   |
-| Preservation-standards taxonomy, intuitive to community                            | Jess-designed taxonomy validated with members                                    |
+| Preservation-standards taxonomy, intuitive to community                            | Archivist-designed taxonomy validated with members                                    |
 | Integrate with CoSA website & GrowthZone Community                                 | Embeds/links, shared taxonomy/branding; integration spike in discovery           |
 | Usage analytics                                                                    | Privacy-friendly web analytics on site + dashboards                              |
 | Online data repository, multiple formats                                           | Working datastore + versioned exports                                            |
@@ -489,16 +508,15 @@ The core promise: **CoSA can keep this running without us, and without surprise 
 
 To turn this draft into a tight, single-approach proposal:
 
-1. Are we bidding **Phase 1 only**, or **Phase 1 + Phase 2**?
-2. What's CoSA's appetite for **GitHub-based workflows** for staff/volunteers vs. preferring a GUI?
-3. Preferred **visualization/dashboard surface** — Tableau (note: Tableau *Public* requires public data; a paid license keeps data private), PowerBI, Looker, or in-site code — and any existing licenses? (We plan **tile-grid maps**, buildable in Tableau or in-site; Mapbox was considered but isn't recommended.)
-4. What does **GrowthZone** expose (APIs, embedding, community spaces) for integration?
-5. How interested is CoSA in the **AI layer**, and what's the comfort level on accuracy/governance/cost?
-6. Which **datasets and FAQs** are highest priority for the first dashboard/release?
-7. **Access tiers:** what must be public vs. member-only vs. restricted?
-8. Confirm the **submission deadline / whether the window is still open**, and the actual project start date for timeline baselining.
-9. Is **travel funding** inside or outside the $100K ceiling?
-10. Can we get access to the **prior GitHub mock-up** and AVP's POC datasets/Tableau workbooks?
+1. What's CoSA's appetite for **GitHub-based workflows** for staff/volunteers vs. preferring a GUI?
+2. Preferred **visualization/dashboard surface** — Tableau (note: Tableau *Public* requires public data; a paid license keeps data private), PowerBI, Looker, or in-site code — and any existing licenses? (We plan **tile-grid maps**, buildable in Tableau or in-site; Mapbox was considered but isn't recommended.)
+3. What does **GrowthZone** expose (APIs, embedding, community spaces) for integration?
+4. How interested is CoSA in the **AI layer**, and what's the comfort level on accuracy/governance/cost?
+5. Which **datasets and FAQs** are highest priority for the first dashboard/release?
+6. **Access tiers:** what must be public vs. member-only vs. restricted?
+7. Confirm the **submission deadline / whether the window is still open**, and the actual project start date for timeline baselining.
+8. Is **travel funding** inside or outside the $100K ceiling?
+9. Can we get access to the **prior GitHub mock-up** and AVP's POC datasets/Tableau workbooks?
 
 ---
 
