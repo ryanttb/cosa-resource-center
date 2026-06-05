@@ -292,6 +292,8 @@ The AVP proof of concept showed that almost every interesting question routes th
 
 **The fix: tile-grid / hex-cartogram maps.** Give every jurisdiction an equal-size cell laid out in a roughly geographic grid. This solves small-state visibility, gives territories and DC a real home, makes "no data" an honest distinct cell instead of a color hack, and reads cleanly at thumbnail size for advocacy one-pagers. This single change addresses the majority of the POC's mapping complaints.
 
+This is an established public-sector practice, not a novel bet. The **CDC's own data-visualization guidance** documents hex-tile maps for exactly the reasons we hit here — equal visibility for the smallest states (what CDC calls the "Alaska effect"), gray "special classes" for `NA`/missing values (our explicit data-availability status, replacing AVP's hand-tuned gray hack), support for simple yes/no policy maps (the "Do you have a policy on X?" use case), and optional per-cell links as a navigation aid to resource pages. See CDC's example and best-practices write-up: [CDC COVE — Hex Map](https://www.cdc.gov/cove/data-visualization-types/hex-map.html).
+
 **Tableau can build tile-grid maps directly.** It doesn't offer them as a built-in map layer, but the well-established technique treats a tile-grid as a **scatter plot**: load a small spatial-crosswalk CSV (fields like `Jurisdiction, Row_X, Column_Y`), plot the coordinates, switch the mark type to a square (or hex shape), and color-code by the metric. Community templates exist (e.g., the "Tableau Hex Tile Map" generator). Practical implications for us:
 
 - We maintain **one tiny, versioned crosswalk file** (jurisdiction → grid row/column) in the repo. It's reusable across every map *and* every tool — Tableau, PowerBI, or lightweight in-site code all consume the same CSV.
@@ -543,7 +545,11 @@ To turn this draft into a tight, single-approach proposal:
 - `proposals/recommendations.pdf` — AVP "State and Territorial Archive Data Aggregation Planning Project — Recommendations Report" (June 20, 2024).
 - `proposals/poc-findings.pdf` — AVP "Proof of Concept Findings" (May 7, 2024): two end-to-end Tableau Public use cases with step-by-step data-prep effort and skill ratings.
 
-### C. AVP's six recommendations (for reference)
+### C. External references
+
+- [CDC COVE — Hex Map](https://www.cdc.gov/cove/data-visualization-types/hex-map.html) — U.S. CDC data-visualization standards page describing hex-tile maps and best practices (small-state visibility / the "Alaska effect," gray "special classes" for missing/`NA` values, yes/no policy maps, and per-cell links as a navigation aid). Reference example for the tile-grid mapping approach in [§6.2](#62-mapping--visualization-tile-grid-maps-with-tableau).
+
+### D. AVP's six recommendations (for reference)
 
 1. Adopt an AMS (→ GrowthZone, done Dec 2024).
 2. Bring ARM survey data into the AMS.
